@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\1.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c65a2e39d54023bac3aef64a2f0cff89289c7ff6">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-drawee-1.3.0_35d9d5718eada62b34c930375fb7a4939be2f3db.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Alistair\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.0\5871fb60dc68d67da54a663c3fd636a10a532948\jsr305-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\jsr305-3.0.0_f2b5dcc2b48db80582aab8e43732673d03855d15.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\1.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="fe85b87215e405f5917d40ae4960488ac9224b74">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-fresco-1.3.0_81be4b4e2360ecb66f90d776dee5f38558cc891d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Alistair\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\javax.inject-1_fac21dec7e176efe365f60fd1b4d3dfab75704c3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.0.1_e57203cfe573f14da7d98eace68d4533bbdef6ea.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp3\1.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c03c08c9934b23c8c09c803345ec51a74119127b">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-imagepipeline-okhttp3-1.3.0_d2eccd8a9d6b4d5be474380272881fd9bee175f0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Alistair\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\bolts-tasks-1.4.0_68fa242aba13e01b29511b278ab148debb569146.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\1.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="37345de2ed2772f385eaeec37a9c2ff0fea99ad7">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-fbcore-1.3.0_cc893e4aa0fa6113288e4719c068266e6a7740ce.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.52.2\jars\libs\infer-annotations-4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="9809e90be788acdb479b2b44e2112f3295a03068">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\infer-annotations-4.0_3f0a93a4c6151c01fe565711df13abf73bc1cf2b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1_33e550c1cd5cc23406ef3cb49c1ddddf6ee94b8f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\1.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="48c7f54c2515a2312d3a4481d10c43fbb807f3af">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-imagepipeline-1.3.0_13c534c155c972b7b75072dc4f004790759e0d3a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.0.1_8ccb6a433c83ba9bfb6d79e5b6a400f5d513cf29.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.soloader-soloader-0.1.0_a8a8d12803ba9cb3d86465d29743ea023548a8b5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\1.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="72128af126ddd7d6252da9357fe560d3abcdfb0c">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-imagepipeline-base-1.3.0_f67158afe61ad7b2a85e37109b006b898dd88cc7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.fbui.textlayoutbuilder\textlayoutbuilder\1.0.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_9ba11888c7a8df6c6d5ce0d2aaf0733a9f735e89.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1_e6941ffc9cbf1270b1623cf686ba7082dcc4df08.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Alistair\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.6.0\69edde9fc4b01c9fd51d25b83428837478c27254\okhttp-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\okhttp-3.6.0_f1f383636243fd90ce28a893882b3c469f4b1741.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AppDev\PipeDream\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.52.2\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="3b7bd52e7b84674c67e424dde64f7b7990d7bc54">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\com.facebook.react-react-native-0.52.2_6a2357cef79d22b98de7475ee6575c0b327b7598.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Alistair\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.13.0\a9283170b7305c8d92d25aff02a6ab7e45d06cbe\okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\okio-1.13.0_591140f41b21fc5f9f0ca4c1037551dd9335fad8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Alistair\.gradle\caches\modules-2\files-2.1\com.facebook.fbui.textlayoutbuilder\staticlayout-proxy\1.0\f162442a19fff13995fbd51ba414d9ee05579080\staticlayout-proxy-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\staticlayout-proxy-1.0_fd0579c1564585d5c7b02450b30645474221b097.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Alistair\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-urlconnection\3.6.0\3f9b16b774f2c36cfd86dd2053d0b3059531dacc\okhttp-urlconnection-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
+        <dex dex="E:\AppDev\PipeDream\android\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-3.6.0_7eb30d9e485fa02242075e16151ff3183354a8fd.jar" />
+    </item>
+
+</items>
