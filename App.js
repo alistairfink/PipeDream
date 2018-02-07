@@ -21,6 +21,7 @@ import {
   StackNavigator,
   TabNavigator,
 } from 'react-navigation';
+import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 
 //Import components
 import HomeScreen from './js/Home';
@@ -31,7 +32,7 @@ import Top100 from './js/Top100';
 const win = Dimensions.get('window');//Viewport
 
 //Navigator for pages
-const RootStack = TabNavigator(
+const RootStack = StackNavigator(
   {
     Home: {
       screen: HomeScreen,
@@ -47,12 +48,8 @@ const RootStack = TabNavigator(
     },
   },
   {
-    //Disable visibible tab bar 
-    navigationOptions: {
-      tabBarVisible: false,
-    },
-    //Disale swipe to give the appearance of separate pages
-    swipeEnabled: false,
+    headerMode: 'none',
+    transitionConfig: getSlideFromRightTransition,//Right to left transition
     initialRouteName: 'Home',//Initial page
   }
 );

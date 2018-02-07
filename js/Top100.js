@@ -32,6 +32,9 @@ class Top100 extends React.Component {
     };
     this.top100 = [];
   }
+  componentWillMount() {
+    this.top100Pull();//Pulls 
+  }
   top100Pull(){
     try{//Fetch top 10 from api
       fetch('https://api.coinmarketcap.com/v1/ticker',{
@@ -49,18 +52,17 @@ class Top100 extends React.Component {
     }
   }
   render() {
-    this.top100Pull();//Pulls 
     return (
      <View style={styles.container}>
           <View style={styles.topBar}>{/*Top Bar*/}
             <TouchableWithoutFeedback onPress={() => {this.props.navigation.goBack()}}>
               <Image source={require('../assets/backIcon.png')} style={styles.backIcon}/>
             </TouchableWithoutFeedback>
-            <Text style={styles.title}>Top 100 Cryptocurrencies</Text>
+            <Text style={styles.title}>Top 100 Cryptocurrencies</Text>{/*Top Bar*/}
           </View>
           <ScrollView> 
             {this.state.loaded && 
-              <View>
+              <View>{/*Top 100 loop through*/}
                 {this.top100.map(currency => (
                   <Text style={{color: 'white'}} key={currency.id}>{currency.name}</Text>
                 ))}

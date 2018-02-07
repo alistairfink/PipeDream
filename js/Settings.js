@@ -32,6 +32,7 @@ class Settings extends React.Component {
           <TouchableWithoutFeedback onPress={() => {this.props.navigation.goBack()}}>
             <Image source={require('../assets/backIcon.png')} style={styles.backIcon}/>
           </TouchableWithoutFeedback>
+          <Text style={styles.title}>Settings</Text>
         </View>
         <ScrollView>{/*Main View for Settings*/}
         </ScrollView>
@@ -57,6 +58,12 @@ const styles = StyleSheet.create({
     width:25,
     marginLeft: 3,
     marginTop: 5,
+  },
+  title: {
+    position: 'absolute',
+    fontSize: 25, 
+    marginLeft: 40,
+    color: 'white', 
   },
 });
 

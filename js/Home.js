@@ -86,7 +86,8 @@ class HomeScreen extends React.Component {
               <View key={name}>{/*Menu Items*/}
                 <TouchableOpacity 
                   onPress={() => {
-                    this.props.navigation.navigate(menuItems[name].route);
+                    if(!(name==='Home'))
+                      this.props.navigation.navigate(menuItems[name].route);
                     this.closeControlPanel(); 
                   }} 
                 >
@@ -123,6 +124,7 @@ class HomeScreen extends React.Component {
               <TouchableWithoutFeedback onPress={() => {this.openControlPanel()}}>
                 <Image source={require('../assets/menuIcon.png')} style={styles.menuIcon}/>
               </TouchableWithoutFeedback>{/*Top Bar*/}
+              <Text style={styles.title}>PipeDream - Crypto Checker</Text>
             </View>
             <ScrollView>{/*Main Home View*/}
             </ScrollView>
@@ -161,6 +163,12 @@ const styles = StyleSheet.create({
   menu: {
     backgroundColor: 'darkcyan', 
     flex: 1,
+  },
+  title: {
+    position: 'absolute',
+    fontSize: 25, 
+    marginLeft: 40,
+    color: 'white', 
   },
 });
 const drawerStyles = {
