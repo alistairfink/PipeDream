@@ -26,6 +26,7 @@ import {
 import HomeScreen from './js/Home';
 import Settings from './js/Settings';
 import OneCrypto from './js/OneCrypto';
+import Top100 from './js/Top100';
 
 const win = Dimensions.get('window');//Viewport
 
@@ -34,6 +35,9 @@ const RootStack = TabNavigator(
   {
     Home: {
       screen: HomeScreen,
+    },
+    Top100: {
+      screen: Top100,
     },
     Settings: {
       screen: Settings,

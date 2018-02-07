@@ -24,9 +24,15 @@ import {
 const win = Dimensions.get('window');//Viewport
 const menuItems = {//Static menu items
   Home: {
+    display: 'Home',
     route: 'Home',
   },
+  Top100: {
+    display: 'Top 100',
+    route: 'Top100',
+  },
   Settings: {
+    display: 'Settings',
     route: 'Settings',
   },
 };
@@ -84,7 +90,7 @@ class HomeScreen extends React.Component {
                     this.closeControlPanel(); 
                   }} 
                 >
-                  <Text style={styles.menuItem}>{name}</Text>
+                  <Text style={styles.menuItem}>{menuItems[name].display}</Text>
                 </TouchableOpacity>
                 <View style={styles.menuLine}></View>
               </View>
