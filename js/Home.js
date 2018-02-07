@@ -97,7 +97,7 @@ class HomeScreen extends React.Component {
                 {this.menuRetrieve.map(currency => (
                   <View key={currency.rank}>{/*After top X gets from api then display*/}
                       <TouchableOpacity 
-                        onPress={() => {
+                        onPress={() => {//Sends current currency object to OneCrypto component
                           this.props.navigation.navigate('OneCrpyto',currency);
                           this.closeControlPanel();
                         }} 

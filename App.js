@@ -54,9 +54,9 @@ const RootStack = TabNavigator(
 );
 
 export default class App extends React.Component{
-  render(){
+  render(){//For navigation
     return(
-      <RootStack />{/*For navigation*}
+      <RootStack />
     );
   }
 }

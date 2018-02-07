@@ -1,3 +1,4 @@
+//Imports
 import React from 'react';
 import { 
   StyleSheet, 
@@ -21,24 +22,25 @@ import {
   TabNavigator,
 } from 'react-navigation';
 
-const win = Dimensions.get('window');
+const win = Dimensions.get('window');//Viewport
 
 class Settings extends React.Component {
   render() {
     return (
 	 <View style={styles.container}>
-        <View style={styles.topBar}>
+        <View style={styles.topBar}>{/*Top ar*/}
           <TouchableWithoutFeedback onPress={() => {this.props.navigation.goBack()}}>
             <Image source={require('../assets/backIcon.png')} style={styles.backIcon}/>
           </TouchableWithoutFeedback>
         </View>
-        <ScrollView>
+        <ScrollView>{/*Main View for Settings*/}
         </ScrollView>
       </View>
     );
   }
 }
 
+//Styles
 const styles = StyleSheet.create({
   container: {
     height: win.height,
