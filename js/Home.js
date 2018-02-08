@@ -14,6 +14,8 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   ScrollView,
+  AsyncStorage,
+  NetInfo,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -54,13 +56,42 @@ class HomeScreen extends React.Component {
   openControlPanel = () => {
     this.menuDrawer.open();//Opens drawer
   };
-  getTopTen() {
+  async getTopTen() {
     try{//Fetch top 10 from api
+      let retrieveStr = await AsyncStorage.getItem('TopX');//Retrieves from app local storage
+      if(retrieveStr){//If something was retrieved
+        retrieveStr = JSON.parse(retrieveStr);//Parse string
+        let curDate = new Date();
+        let prevDate = new Date(retrieveStr[0].last_updated*1000);//Get last updated date and current date.
+        NetInfo.isConnected.fetch().then(isConnected => {//Check connection
+          if(!isConnected)
+          {//If no connection set stored stuff to frontend and toast no connection then stop running.
+            this.menuRetrieve = retrieveStr;
+            if(!(this.state.loaded))
+              this.setState({loaded: true});
+            else
+              ToastAndroid.show('No Internet', ToastAndroid.SHORT);
+            return;
+          }
+        })
+        if((curDate.getTime() - prevDate.getTime())/1000 < 300) {
+          //If difference between last updated time and current is less than 5 min then don't update.
+          this.menuRetrieve = retrieveStr;
+          if(!(this.state.loaded))
+            this.setState({loaded: true});
+          else
+            ToastAndroid.show('Already Up to Date', ToastAndroid.SHORT);
+          return;
+        }
+      }
+      //If no local or last update time is greater than 5 min then update
+      ToastAndroid.show('Updating...', ToastAndroid.SHORT);
       fetch('https://api.coinmarketcap.com/v1/ticker/?limit=10',{
         method: 'GET'
       })
       .then( (response) => response.json()) //Convert response to JSON
-      .then((responseJson) => { //Set JSON response to variable and set loaded to true
+      .then(async(responseJson) => { //Set JSON response to variable and set loaded to true
+        await AsyncStorage.setItem('TopX', JSON.stringify(responseJson));
         this.menuRetrieve = responseJson;
         this.setState({loaded: true});//Loaded so it can display
       })
@@ -127,6 +158,7 @@ class HomeScreen extends React.Component {
               <Text style={styles.title}>PipeDream - Crypto Checker</Text>
             </View>
             <ScrollView>{/*Main Home View*/}
+                      <Button title={'Refresh'} onPress={() => {this.getTopTen()}}/>{/*TEMPORARY*/}
             </ScrollView>
           </View>
       </Drawer>
