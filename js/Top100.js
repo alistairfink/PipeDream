@@ -58,7 +58,7 @@ class Top100 extends React.Component {
             <TouchableWithoutFeedback onPress={() => {this.props.navigation.goBack()}}>
               <Image source={require('../assets/backIcon.png')} style={styles.backIcon}/>
             </TouchableWithoutFeedback>
-            <Text style={styles.title}>Top 100 Cryptocurrencies</Text>{/*Top Bar*/}
+            <Text style={styles.title}>Top 100 Cryptos</Text>{/*Top Bar*/}
           </View>
           <ScrollView> 
             {this.state.loaded && 
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     width: win.width,
     height: 35,
     backgroundColor: 'green',
+    flexDirection: 'row', 
   },
   backIcon: {
     height:25,
@@ -93,9 +94,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   title: {
-    position: 'absolute',
     fontSize: 25, 
-    marginLeft: 40,
+    marginLeft: 10,
     color: 'white', 
   },
 });

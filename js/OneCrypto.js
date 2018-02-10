@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     width: win.width,
     height: 35,
     backgroundColor: 'green',
+    flexDirection: 'row', 
   },
   backIcon: {
     height:25,
@@ -74,9 +75,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   title: {
-    position: 'absolute',
     fontSize: 25, 
-    marginLeft: 40,
+    marginLeft: 10,
     color: 'white', 
   },
 });

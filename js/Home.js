@@ -155,10 +155,14 @@ class HomeScreen extends React.Component {
               <TouchableWithoutFeedback onPress={() => {this.openControlPanel()}}>
                 <Image source={require('../assets/menuIcon.png')} style={styles.menuIcon}/>
               </TouchableWithoutFeedback>{/*Top Bar*/}
-              <Text style={styles.title}>PipeDream - Crypto Checker</Text>
+              <Text style={styles.title}>PipeDream</Text>
+              <View style={styles.topBarRight}>
+                <TouchableWithoutFeedback onPress={() => {this.getTopTen()}}>
+                  <Image source={require('../assets/refreshIcon.png')} style={styles.menuIcon}/>
+                </TouchableWithoutFeedback>
+              </View>
             </View>
             <ScrollView>{/*Main Home View*/}
-                      <Button title={'Refresh'} onPress={() => {this.getTopTen()}}/>{/*TEMPORARY*/}
             </ScrollView>
           </View>
       </Drawer>
@@ -177,12 +181,14 @@ const styles = StyleSheet.create({
     width: win.width,
     height: 35,
     backgroundColor: 'green',
+    flexDirection: 'row', 
   },
   menuIcon: {
     height:25,
     width:25,
     marginLeft: 3,
     marginTop: 5,
+    marginRight: 5,
   },
   menuItem: {
     fontSize: 30,
@@ -196,10 +202,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'darkcyan', 
     flex: 1,
   },
+  topBarRight: {
+    flex: 1, 
+    alignItems: 'flex-end',
+    marginRight: 10,
+  },
   title: {
-    position: 'absolute',
     fontSize: 25, 
-    marginLeft: 40,
+    marginLeft: 5,
     color: 'white', 
   },
 });
