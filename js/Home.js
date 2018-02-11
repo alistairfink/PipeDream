@@ -83,6 +83,12 @@ class HomeScreen extends React.Component {
             ToastAndroid.show('Already Up to Date', ToastAndroid.SHORT);
           return;
         }
+        if(!(this.state.loaded))
+        {
+          this.menuRetrieve = retrieveStr;
+          this.setState({loaded: true});
+          return;
+        }
       }
       //If no local or last update time is greater than 5 min then update
       ToastAndroid.show('Updating...', ToastAndroid.SHORT);
