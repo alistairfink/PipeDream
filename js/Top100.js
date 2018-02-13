@@ -22,6 +22,8 @@ import {
   TabNavigator,
 } from 'react-navigation';
 
+import CommonStyles from './CommonStyles';
+
 const win = Dimensions.get('window');//Viewport
 
 class Top100 extends React.Component {
@@ -53,12 +55,12 @@ class Top100 extends React.Component {
   }
   render() {
     return (
-     <View style={styles.container}>
-          <View style={styles.topBar}>{/*Top Bar*/}
+     <View style={CommonStyles.container}>
+          <View style={CommonStyles.topBar}>{/*Top Bar*/}
             <TouchableWithoutFeedback onPress={() => {this.props.navigation.goBack()}}>
-              <Image source={require('../assets/backIcon.png')} style={styles.backIcon}/>
+              <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
             </TouchableWithoutFeedback>
-            <Text style={styles.title}>Top 100 Cryptos</Text>{/*Top Bar*/}
+            <Text style={CommonStyles.title}>Top 100 Cryptos</Text>{/*Top Bar*/}
           </View>
           <ScrollView> 
             {this.state.loaded && 
@@ -76,28 +78,6 @@ class Top100 extends React.Component {
 
 //Styles
 const styles = StyleSheet.create({
-  container: {
-    height: win.height,
-    width: win.width,
-    backgroundColor: '#000000',
-  },
-  topBar: {
-    width: win.width,
-    height: 35,
-    backgroundColor: 'green',
-    flexDirection: 'row', 
-  },
-  backIcon: {
-    height:25,
-    width:25,
-    marginLeft: 3,
-    marginTop: 5,
-  },
-  title: {
-    fontSize: 25, 
-    marginLeft: 10,
-    color: 'white', 
-  },
 });
 
 export default Top100;

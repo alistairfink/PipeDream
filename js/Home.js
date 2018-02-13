@@ -23,6 +23,8 @@ import {
   TabNavigator,
 } from 'react-navigation';
 
+import CommonStyles from './CommonStyles';
+
 const win = Dimensions.get('window');//Viewport
 const menuItems = {//Static menu items
   Home: {
@@ -156,13 +158,13 @@ class HomeScreen extends React.Component {
           </ScrollView>
         }
         >
-          <View style={styles.container}>{/*Regular home view*/}
-            <View style={styles.topBar}>
+          <View style={CommonStyles.container}>{/*Regular home view*/}
+            <View style={CommonStyles.topBar}>
               <TouchableWithoutFeedback onPress={() => {this.openControlPanel()}}>
                 <Image source={require('../assets/menuIcon.png')} style={styles.menuIcon}/>
               </TouchableWithoutFeedback>{/*Top Bar*/}
-              <Text style={styles.title}>PipeDream</Text>
-              <View style={styles.topBarRight}>
+              <Text style={CommonStyles.title}>PipeDream</Text>
+              <View style={CommonStyles.topBarRight}>
                 <TouchableWithoutFeedback onPress={() => {this.getTopTen()}}>
                   <Image source={require('../assets/refreshIcon.png')} style={styles.menuIcon}/>
                 </TouchableWithoutFeedback>
@@ -178,17 +180,6 @@ class HomeScreen extends React.Component {
 
 //Styles
 const styles = StyleSheet.create({
-  container: {
-    height: win.height,
-    width: win.width,
-    backgroundColor: '#000000',
-  },
-  topBar: {
-    width: win.width,
-    height: 35,
-    backgroundColor: 'green',
-    flexDirection: 'row', 
-  },
   menuIcon: {
     height:25,
     width:25,
@@ -207,16 +198,6 @@ const styles = StyleSheet.create({
   menu: {
     backgroundColor: 'darkcyan', 
     flex: 1,
-  },
-  topBarRight: {
-    flex: 1, 
-    alignItems: 'flex-end',
-    marginRight: 10,
-  },
-  title: {
-    fontSize: 25, 
-    marginLeft: 5,
-    color: 'white', 
   },
 });
 const drawerStyles = {

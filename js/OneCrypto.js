@@ -22,6 +22,8 @@ import {
   TabNavigator,
 } from 'react-navigation';
 
+import CommonStyles from './CommonStyles';
+
 const win = Dimensions.get('window');//Viewport
 
 class OneCrypto extends React.Component {
@@ -31,13 +33,13 @@ class OneCrypto extends React.Component {
   render() {
     const { params } = this.props.navigation.state;//Get params from drawer button.
     return (
-     <View style={styles.container}>
-          <View style={styles.topBar}>{/*Top Bar*/}
+     <View style={CommonStyles.container}>
+          <View style={CommonStyles.topBar}>{/*Top Bar*/}
             <TouchableWithoutFeedback onPress={() => {this.props.navigation.goBack()}}>
-              <Image source={require('../assets/backIcon.png')} style={styles.backIcon}/>
+              <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
             </TouchableWithoutFeedback>
             {params && 
-              <Text style={styles.title}>{params.name} ({params.symbol})</Text>
+              <Text style={CommonStyles.title}>{params.name} ({params.symbol})</Text>
             }{/*Crpyo Title*/}
           </View>
           <ScrollView> 
@@ -57,28 +59,6 @@ class OneCrypto extends React.Component {
 
 //Styles
 const styles = StyleSheet.create({
-  container: {
-    height: win.height,
-    width: win.width,
-    backgroundColor: '#000000',
-  },
-  topBar: {
-    width: win.width,
-    height: 35,
-    backgroundColor: 'green',
-    flexDirection: 'row', 
-  },
-  backIcon: {
-    height:25,
-    width:25,
-    marginLeft: 3,
-    marginTop: 5,
-  },
-  title: {
-    fontSize: 25, 
-    marginLeft: 10,
-    color: 'white', 
-  },
 });
 
 export default OneCrypto;
