@@ -17,6 +17,7 @@ import {
   ScrollView,
   Switch,
   AsyncStorage,
+  TextInput,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -35,6 +36,16 @@ const settings = {
     stateName: 'refreshOnOpen',
     storageName: 'RefreshOnOpen',
   },
+  menuEntires: {
+    displayText: 'Change Number of Top Cryptos Shown in Side Menu',
+    optionType: 'number', 
+    options: {
+      min: 0,
+      max: 100,
+    },
+    stateName: 'menuEntries',
+    storageName: 'MenuEntries',
+  },
 };
 
 class Settings extends React.Component {
@@ -42,6 +53,7 @@ class Settings extends React.Component {
     super(props);
     this.state = {
       refreshOnOpen: true,
+      menuEntries: 10,
     };
   }
   async save() {
@@ -94,6 +106,22 @@ class Settings extends React.Component {
                       value={(this.state)[settings[setting].stateName]}
                       onValueChange={() => {
                         this.setState({[settings[setting].stateName]:!(this.state)[settings[setting].stateName]})
+                      }}
+                    />
+                  }
+                  {/*For number input takes max and min from options object specific for number type.*/}
+                  {/*Does checking in onChangeText since no good text input for rn.*/}
+                  {settings[setting].optionType === 'number' &&
+                    <TextInput
+                      keyboardType={'numeric'}
+                      placeholderTextColor={'white'}
+                      style={{color: 'white'}}
+                      value={""+(this.state)[settings[setting].stateName]}
+                      onChangeText={(value) =>{
+                        if(!(isNaN(value)) && value >= settings[setting].options.min && value <= settings[setting].options.max )
+                        {
+                          this.setState({[settings[setting].stateName]:value});
+                        }
                       }}
                     />
                   }

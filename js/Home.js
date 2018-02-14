@@ -51,6 +51,7 @@ class HomeScreen extends React.Component {
   }
   componentWillMount() {
     this.getTopTen();//On component load try to get items
+    this.setState({loaded: this.state.loaded});
   }
   closeControlPanel = () => {
     this.menuDrawer.close();//Closes drawer
@@ -61,8 +62,17 @@ class HomeScreen extends React.Component {
   async getTopTen() {
     try{//Fetch top 10 from api
       let retrieveStr = await AsyncStorage.getItem('TopX');//Retrieves from app local storage
+      //Read in settings
+      let menuEntries = await AsyncStorage.getItem('MenuEntries');
+      menuEntries = JSON.parse(menuEntries);
+      menuEntries = menuEntries ? menuEntries.setting : 10;
+      let refreshOnOpen = await AsyncStorage.getItem('RefreshOnOpen'); 
+      refreshOnOpen = JSON.parse(refreshOnOpen);
+      refreshOnOpen = refreshOnOpen ? refreshOnOpen.setting : true;
+      //^^Read in settings
       if(retrieveStr){//If something was retrieved
         retrieveStr = JSON.parse(retrieveStr);//Parse string
+        retrieveStr = retrieveStr.slice(0, menuEntries);
         let curDate = new Date();
         let prevDate = new Date(retrieveStr[0].last_updated*1000);//Get last updated date and current date.
         NetInfo.isConnected.fetch().then(isConnected => {//Check connection
@@ -80,12 +90,17 @@ class HomeScreen extends React.Component {
           //If difference between last updated time and current is less than 5 min then don't update.
           this.menuRetrieve = retrieveStr;
           if(!(this.state.loaded))
+          {
             this.setState({loaded: true});
+            if(refreshOnOpen)
+              ToastAndroid.show('Already Up to Date', ToastAndroid.SHORT);
+          }
           else
             ToastAndroid.show('Already Up to Date', ToastAndroid.SHORT);
           return;
         }
-        if(!(this.state.loaded))
+        //If refreshOnOpen is turned off and not yet loaded then load in what we already have.
+        if(!refreshOnOpen && this.state.loaded===false)
         {
           this.menuRetrieve = retrieveStr;
           this.setState({loaded: true});
@@ -94,13 +109,13 @@ class HomeScreen extends React.Component {
       }
       //If no local or last update time is greater than 5 min then update
       ToastAndroid.show('Updating...', ToastAndroid.SHORT);
-      fetch('https://api.coinmarketcap.com/v1/ticker/?limit=10',{
+      fetch('https://api.coinmarketcap.com/v1/ticker/',{
         method: 'GET'
       })
       .then( (response) => response.json()) //Convert response to JSON
       .then(async(responseJson) => { //Set JSON response to variable and set loaded to true
         await AsyncStorage.setItem('TopX', JSON.stringify(responseJson));
-        this.menuRetrieve = responseJson;
+        this.menuRetrieve = responseJson.slice(0, menuEntries);
         this.setState({loaded: true});//Loaded so it can display
       })
     }
@@ -148,7 +163,7 @@ class HomeScreen extends React.Component {
                           this.closeControlPanel();
                         }} 
                       >
-                        <Text style={styles.menuItem} >{currency.name}</Text>
+                        <Text style={styles.menuItem} >{currency.rank}   {currency.name}</Text>
                       </TouchableOpacity>
                       <View style={styles.menuLine}></View>
                   </View>
