@@ -32,4 +32,11 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 10,
   },
+  menuIcon: {
+    height:25,
+    width:25,
+    marginLeft: 3,
+    marginTop: 5,
+    marginRight: 5,
+  },
 });

@@ -191,12 +191,12 @@ class HomeScreen extends React.Component {
           <View style={CommonStyles.container}>{/*Regular home view*/}
             <View style={CommonStyles.topBar}>
               <TouchableWithoutFeedback onPress={() => {this.openControlPanel()}}>
-                <Image source={require('../assets/menuIcon.png')} style={styles.menuIcon}/>
+                <Image source={require('../assets/menuIcon.png')} style={CommonStyles.menuIcon}/>
               </TouchableWithoutFeedback>{/*Top Bar*/}
               <Text style={CommonStyles.title}>PipeDream</Text>
               <View style={CommonStyles.topBarRight}>
                 <TouchableWithoutFeedback onPress={() => {this.getTopTen()}}>
-                  <Image source={require('../assets/refreshIcon.png')} style={styles.menuIcon}/>
+                  <Image source={require('../assets/refreshIcon.png')} style={CommonStyles.menuIcon}/>
                 </TouchableWithoutFeedback>
               </View>
             </View>
@@ -211,13 +211,6 @@ class HomeScreen extends React.Component {
 
 //Styles
 const styles = StyleSheet.create({
-  menuIcon: {
-    height:25,
-    width:25,
-    marginLeft: 3,
-    marginTop: 5,
-    marginRight: 5,
-  },
   menuItem: {
     fontSize: 30,
     margin: 5,
