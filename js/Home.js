@@ -46,12 +46,12 @@ class HomeScreen extends React.Component {
     super(props);
     this.state  = {
       loaded: false,//For top X on sidebar
+      refreshList: false,
     };
     this.menuRetrieve = [];//Retrieve top X
   }
   componentWillMount() {
     this.getTopTen();//On component load try to get items
-    this.setState({loaded: this.state.loaded});
   }
   closeControlPanel = () => {
     this.menuDrawer.close();//Closes drawer
@@ -75,6 +75,11 @@ class HomeScreen extends React.Component {
         retrieveStr = retrieveStr.slice(0, menuEntries);
         let curDate = new Date();
         let prevDate = new Date(retrieveStr[0].last_updated*1000);//Get last updated date and current date.
+        if(this.state.refreshList)
+        {//For when refreshing on back.
+          this.menuRetrieve = retrieveStr;
+          return;
+        }
         NetInfo.isConnected.fetch().then(isConnected => {//Check connection
           if(!isConnected)
           {//If no connection set stored stuff to frontend and toast no connection then stop running.
@@ -123,6 +128,12 @@ class HomeScreen extends React.Component {
     {//If can't load the log error.
       console.log(error);
     }
+  } 
+  async refreshList() {
+    //Refresh list
+    this.setState({refreshList: true});
+    await this.getTopTen();
+    this.setState({refreshList: false});
   }
   render() {
     return (
@@ -141,7 +152,11 @@ class HomeScreen extends React.Component {
                 <TouchableOpacity 
                   onPress={() => {
                     if(!(name==='Home'))
-                      this.props.navigation.navigate(menuItems[name].route);
+                    {  
+                      this.props.navigation.navigate(menuItems[name].route,{
+                        onGoBack: () => this.refreshList(),
+                      });//Callback function to refresh this view
+                    }
                     this.closeControlPanel(); 
                   }} 
                 >
@@ -186,6 +201,7 @@ class HomeScreen extends React.Component {
               </View>
             </View>
             <ScrollView>{/*Main Home View*/}
+
             </ScrollView>
           </View>
       </Drawer>

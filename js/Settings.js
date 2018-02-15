@@ -67,6 +67,7 @@ class Settings extends React.Component {
       settingToSave = JSON.stringify(settingToSave);//Stringify to prepare for AsyncStorage(Only accepts strings and object makes it easier)
       await AsyncStorage.setItem(settings[compo].storageName, settingToSave);
     }
+    this.props.navigation.state.params.onGoBack();//Refresh list on save settings
     this.props.navigation.goBack();
   }
   async initLoad() {
