@@ -40,7 +40,7 @@ const settings = {
     displayText: 'Change Number of Top Cryptos Shown in Side Menu',
     optionType: 'number', 
     options: {
-      min: 0,
+      min: 1,
       max: 100,
     },
     stateName: 'menuEntries',

@@ -12,18 +12,18 @@ export default StyleSheet.create({
   },
   topBar: {
     width: win.width,
-    height: 35,
+    height: 40,
     backgroundColor: 'green',
     flexDirection: 'row', 
   },
   backIcon: {
-    height:25,
-    width:25,
+    height:27,
+    width:27,
     marginLeft: 3,
-    marginTop: 5,
+    marginTop: 7,
   },
   title: {
-    fontSize: 25, 
+    fontSize: 30, 
     marginLeft: 5,
     color: 'white', 
   },
@@ -33,10 +33,10 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   menuIcon: {
-    height:25,
-    width:25,
+    height:27,
+    width:27,
     marginLeft: 3,
-    marginTop: 5,
+    marginTop: 7,
     marginRight: 5,
   },
 });
