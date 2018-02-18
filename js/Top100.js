@@ -90,22 +90,6 @@ class Top100 extends React.Component {
       console.log(error);
     }
   } 
-  /*top100Pull(){
-    try{//Fetch top 10 from api
-      fetch('https://api.coinmarketcap.com/v1/ticker',{
-        method: 'GET'
-      })
-      .then( (response) => response.json()) //Convert response to JSON
-      .then((responseJson) => { //Set JSON response to variable and set loaded to true
-        this.top100 = responseJson;
-        this.setState({loaded: true});//Loaded so it can display
-      })
-    }
-    catch(error)
-    {//If can't load the log error.
-      console.log(error);
-    }
-  }*/
   render() {
     return (
      <View style={CommonStyles.container}>

@@ -146,46 +146,50 @@ class HomeScreen extends React.Component {
         negotiatePan={true}
         ref={(ref) => this.menuDrawer = ref}
         content={
-          <ScrollView style={styles.menu}>{/*Side bar menu*/}
-            {Object.keys(menuItems).map((name: string) => (
-              <View key={name}>{/*Menu Items*/}
-                <TouchableOpacity 
-                  onPress={() => {
-                    if(!(name==='Home'))
-                    {  
-                      this.props.navigation.navigate(menuItems[name].route,{
-                        onGoBack: () => this.refreshList(),
-                      });//Callback function to refresh this view
-                    }
-                    this.closeControlPanel(); 
-                  }} 
-                >
-                  <Text style={styles.menuItem}>{menuItems[name].display}</Text>
-                </TouchableOpacity>
-                <View style={styles.menuLine}></View>
-              </View>
-            ))}
-            {!(this.state.loaded) &&
-              <Text>Loading...</Text>
-            }{/*Until items get from api then load. THIS SHOULD ONLY EVER HAPPEN ONCE*/}
-            {this.state.loaded &&
-              <View>
-                {this.menuRetrieve.map(currency => (
-                  <View key={currency.rank}>{/*After top X gets from api then display*/}
-                      <TouchableOpacity 
-                        onPress={() => {//Sends current currency object to OneCrypto component
-                          this.props.navigation.navigate('OneCrpyto',currency);
-                          this.closeControlPanel();
-                        }} 
-                      >
-                        <Text style={styles.menuItem} >{currency.rank}   {currency.name}</Text>
-                      </TouchableOpacity>
-                      <View style={styles.menuLine}></View>
+          <View style={styles.menuBackColourGreen}>
+            <View style={styles.menuBackColourBlack}>
+              <ScrollView style={styles.menu}>{/*Side bar menu*/}
+                {Object.keys(menuItems).map((name: string) => (
+                  <View key={name}>{/*Menu Items*/}
+                    <TouchableOpacity 
+                      onPress={() => {
+                        if(!(name==='Home'))
+                        {  
+                          this.props.navigation.navigate(menuItems[name].route,{
+                            onGoBack: () => this.refreshList(),
+                          });//Callback function to refresh this view
+                        }
+                        this.closeControlPanel(); 
+                      }} 
+                    >
+                      <Text style={styles.menuItem}>{menuItems[name].display}</Text>
+                    </TouchableOpacity>
+                    <View style={styles.menuLine}></View>
                   </View>
                 ))}
-              </View>
-            }
-          </ScrollView>
+                {!(this.state.loaded) &&
+                  <Text>Loading...</Text>
+                }{/*Until items get from api then load. THIS SHOULD ONLY EVER HAPPEN ONCE*/}
+                {this.state.loaded &&
+                  <View>
+                    {this.menuRetrieve.map(currency => (
+                      <View key={currency.rank}>{/*After top X gets from api then display*/}
+                          <TouchableOpacity 
+                            onPress={() => {//Sends current currency object to OneCrypto component
+                              this.props.navigation.navigate('OneCrpyto',currency);
+                              this.closeControlPanel();
+                            }} 
+                          >
+                            <Text style={styles.menuItem} >{currency.rank}   {currency.name}</Text>
+                          </TouchableOpacity>
+                          <View style={styles.menuLine}></View>
+                      </View>
+                    ))}
+                  </View>
+                }
+              </ScrollView>
+            </View>
+          </View>
         }
         >
           <View style={CommonStyles.container}>{/*Regular home view*/}
@@ -200,7 +204,7 @@ class HomeScreen extends React.Component {
                 </TouchableWithoutFeedback>
               </View>
             </View>
-            <ScrollView>{/*Main Home View*/}
+            <ScrollView style={styles.mainView}>{/*Main Home View*/}
 
             </ScrollView>
           </View>
@@ -222,6 +226,21 @@ const styles = StyleSheet.create({
   menu: {
     backgroundColor: 'darkcyan', 
     flex: 1,
+    borderBottomRightRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  menuBackColourGreen: {
+    flex:1,
+    backgroundColor: 'green',
+  },
+  menuBackColourBlack: {
+    flex:1,
+    backgroundColor: 'black', 
+    borderTopRightRadius: 20,
+  },
+  mainView: {
+    flex: 1,
+    backgroundColor: 'black',
   },
 });
 const drawerStyles = {
