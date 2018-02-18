@@ -19,8 +19,9 @@ export default StyleSheet.create({
   backIcon: {
     height:27,
     width:27,
-    marginLeft: 3,
+    marginLeft: 7,
     marginTop: 7,
+    marginRight: 7,
   },
   title: {
     fontSize: 30, 
@@ -35,8 +36,11 @@ export default StyleSheet.create({
   menuIcon: {
     height:27,
     width:27,
-    marginLeft: 3,
+    marginLeft: 7,
     marginTop: 7,
-    marginRight: 5,
+    marginRight: 10,
   },
+  topBarRigthInner:{
+  	flexDirection: 'row', 
+  }
 });

@@ -35,9 +35,9 @@ class OneCrypto extends React.Component {
     return (
      <View style={CommonStyles.container}>
           <View style={CommonStyles.topBar}>{/*Top Bar*/}
-            <TouchableWithoutFeedback onPress={() => {this.props.navigation.goBack()}}>
+            <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
               <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
             {params && 
               <Text style={CommonStyles.title}>{params.name} ({params.symbol})</Text>
             }{/*Crpyo Title*/}

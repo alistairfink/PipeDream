@@ -47,6 +47,12 @@ const settings = {
     storageName: 'MenuEntries',
   },
 };
+const buttons = {
+  refreshMasterList: {
+    displayText: 'Refresh Master List',
+    functionCall: 'checkMasterList',
+  },
+}
 
 class Settings extends React.Component {
   constructor(props){
@@ -67,7 +73,8 @@ class Settings extends React.Component {
       settingToSave = JSON.stringify(settingToSave);//Stringify to prepare for AsyncStorage(Only accepts strings and object makes it easier)
       await AsyncStorage.setItem(settings[compo].storageName, settingToSave);
     }
-    this.props.navigation.state.params.onGoBack();//Refresh list on save settings
+    this.props.navigation.state.params.onGoBack('list');//Refresh list on save settings
+    //this.props.navigation.state.params.onGoBack('list');//Refresh list on save settings
     this.props.navigation.goBack();
   }
   async initLoad() {
@@ -86,13 +93,35 @@ class Settings extends React.Component {
   componentWillMount() {
     this.initLoad();
   }
+  async checkMasterList() {
+    //Same as Home's checkMasterList() but gets list everytime
+    try{
+      fetch('https://api.coinmarketcap.com/v1/ticker/?limit=99999999',{
+        method: 'GET'
+      })
+      .then( (response) => response.json()) 
+      .then(async(responseJson) => { 
+        let masterList = [];
+        for(let i = 0; i<responseJson.length; i++)
+        {
+          masterList.push(responseJson[i].name);
+        }
+        await AsyncStorage.setItem('MasterList', JSON.stringify(masterList));
+        ToastAndroid.show('Master List Updated', ToastAndroid.SHORT);
+      })
+    }
+    catch(error)
+    {//If can't load the log error.
+      console.log(error);
+    }
+  }
   render() {
     return (
 	    <View style={CommonStyles.container}>
         <View style={CommonStyles.topBar}>{/*Top bar*/}
-          <TouchableWithoutFeedback onPress={() => {this.props.navigation.goBack()}}>
+          <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
             <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
           <Text style={CommonStyles.title}>Settings</Text>
         </View>
         <ScrollView>{/*Main View for Settings*/}
@@ -129,6 +158,22 @@ class Settings extends React.Component {
                 </View>
               </View>
               <View style={styles.menuLine}></View>
+            </View>
+          ))}
+          {Object.keys(buttons).map((button: string) => (
+            <View key={button}>
+              <Button 
+                title={buttons[button].displayText}
+                onPress={() => {
+                  //Switch Case because I couldn't figure out how to do the function call since buttons is outside class
+                  //Switch Case was most painless way to implement. Tho most painful to maintain.
+                  switch(buttons[button].functionCall){
+                    case 'checkMasterList':
+                      this.checkMasterList();
+                      break;
+                  }
+                }}
+              />
             </View>
           ))}
         </ScrollView>

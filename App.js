@@ -28,6 +28,7 @@ import HomeScreen from './js/Home';
 import Settings from './js/Settings';
 import OneCrypto from './js/OneCrypto';
 import Top100 from './js/Top100';
+import AddCard from './js/AddCard';
 
 const win = Dimensions.get('window');//Viewport
 
@@ -45,6 +46,9 @@ const RootStack = StackNavigator(
     },
     OneCrpyto: {
       screen: OneCrypto,
+    },
+    AddCard: {
+      screen: AddCard,
     },
   },
   {

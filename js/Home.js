@@ -16,6 +16,7 @@ import {
   ScrollView,
   AsyncStorage,
   NetInfo,
+  TouchableNativeFeedback,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -52,6 +53,7 @@ class HomeScreen extends React.Component {
   }
   componentWillMount() {
     this.getTopTen();//On component load try to get items
+    this.checkMasterList();
   }
   closeControlPanel = () => {
     this.menuDrawer.close();//Closes drawer
@@ -129,11 +131,42 @@ class HomeScreen extends React.Component {
       console.log(error);
     }
   } 
-  async refreshList() {
-    //Refresh list
-    this.setState({refreshList: true});
-    await this.getTopTen();
-    this.setState({refreshList: false});
+  async onGoBack(refreshOption, optionalObj) {
+    //Refresh based on option
+    if(refreshOption === 'list')
+    {
+      this.setState({refreshList: true});
+      await this.getTopTen();
+      this.setState({refreshList: false});
+    }
+    else if(refreshOption === 'mainView')
+    {
+
+    }
+  }
+  async checkMasterList() {
+    try{
+      let retrieveMaster = await AsyncStorage.getItem('MasterList');
+      if(!retrieveMaster)//Checks if master list exists. Theoritcally this only happens on first startup
+      {
+        fetch('https://api.coinmarketcap.com/v1/ticker/?limit=99999999',{
+          method: 'GET'
+        })
+        .then( (response) => response.json()) //Convert response to JSON
+        .then(async(responseJson) => { 
+          let masterList = [];
+          for(let i = 0; i<responseJson.length; i++)
+          {
+            masterList.push(responseJson[i].name);
+          }//Gets list of just names and sets to cache
+          await AsyncStorage.setItem('MasterList', JSON.stringify(masterList));
+        })
+      }
+    }
+    catch(error)
+    {//If can't load the log error.
+      console.log(error);
+    }
   }
   render() {
     return (
@@ -156,7 +189,7 @@ class HomeScreen extends React.Component {
                         if(!(name==='Home'))
                         {  
                           this.props.navigation.navigate(menuItems[name].route,{
-                            onGoBack: () => this.refreshList(),
+                            onGoBack: (refreshOption, optionalObj) => this.onGoBack(refreshOption, optionalObj),
                           });//Callback function to refresh this view
                         }
                         this.closeControlPanel(); 
@@ -199,9 +232,18 @@ class HomeScreen extends React.Component {
               </TouchableWithoutFeedback>{/*Top Bar*/}
               <Text style={CommonStyles.title}>PipeDream</Text>
               <View style={CommonStyles.topBarRight}>
-                <TouchableWithoutFeedback onPress={() => {this.getTopTen()}}>
-                  <Image source={require('../assets/refreshIcon.png')} style={CommonStyles.menuIcon}/>
-                </TouchableWithoutFeedback>
+                <View style={CommonStyles.topBarRigthInner}>
+                  <TouchableOpacity onPress={() => {this.getTopTen()}}>
+                    <Image source={require('../assets/refreshIcon.png')} style={CommonStyles.menuIcon}/>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => {
+                    this.props.navigation.navigate('AddCard',{
+                      onGoBack: (refreshOption, optionalObj) => this.onGoBack(refreshOption, optionalObj),
+                    });//Callback function to refresh this view
+                  }}>
+                    <Image source={require('../assets/addIcon.png')} style={CommonStyles.menuIcon}/>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
             <ScrollView style={styles.mainView}>{/*Main Home View*/}
