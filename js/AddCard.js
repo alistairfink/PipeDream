@@ -16,6 +16,8 @@ import {
   ScrollView,
   AsyncStorage,
   NetInfo,
+  TextInput,
+  FlatList,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -30,33 +32,98 @@ const win = Dimensions.get('window');//Viewport
 class AddCard extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      search: '',
+      masterList: null,
+      searchList: null,
+    };
+    this.cardList = [];
   }
-  async save() {
-    this.props.navigation.state.params.onGoBack('list');
+  componentWillMount() {
+    this.pullStorageData();
+  }
+  async save(item) {
+    //Checks if crypto is already in card storage
+    for(let i = 0; i < this.cardList.length; i++)
+    {
+      if(this.cardList[i].id === item.id){
+        ToastAndroid.show('Cryptocurrency Card Already Added', ToastAndroid.SHORT);
+        return;
+      }
+    }
+    //If its not then push it to the cardList array and save.
+    this.cardList.push(item);
+    await AsyncStorage.setItem('CardList', JSON.stringify(this.cardList));
+    let retrieveCards = await AsyncStorage.getItem('CardList');
+    this.props.navigation.state.params.onGoBack('mainView');
     this.props.navigation.goBack();
+  }
+  async pullStorageData() {
+    //Get master list and card list. Unfiltered searchList == masterlist
+    let retrieveMaster = await AsyncStorage.getItem('MasterList');
+    retrieveMaster = retrieveMaster ? JSON.parse(retrieveMaster) : [];
+    this.setState({masterList: retrieveMaster, searchList: retrieveMaster});
+    let retrieveCards = await AsyncStorage.getItem('CardList');
+    this.cardList = retrieveCards ? JSON.parse(retrieveCards) : [];
+  } 
+  handleSearch(_input) {
+    //Gets input string and sets lowercase to ignore case.
+    let input = _input.toLowerCase();
+    let masterList = this.state.masterList;
+    //Checks each item to see if it matches. If it does it stays
+    let searchList = masterList.filter((item) => {
+      if(item.name.toLowerCase().includes(input))
+        return item;
+    })
+    //If there is no search string then searchList == masterList
+    if(!input || input === '')
+    {
+      this.setState({searchList: masterList});
+    }
+    else
+    {
+      this.setState({searchList: searchList});
+    }
   }
   render() {
     return (
       <View style={CommonStyles.container}>
-        <View style={CommonStyles.topBar}>
+        <View style={CommonStyles.topBar}>{/*Top Bar*/}
           <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
             <Image source={require('../assets/cancelIcon.png')} style={CommonStyles.backIcon}/>
           </TouchableOpacity>
           <Text style={CommonStyles.title}>Add Card</Text>
         </View>
-        <ScrollView>
-          
-        </ScrollView>
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.footerButton} onPress={() => {
-            this.props.navigation.goBack();
-          }}>
-          <Text style={styles.footerText}>Cancel</Text>            
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.footerButton} onPress={this.save.bind(this)}>
-            <Text style={styles.footerText}>Save</Text>
-          </TouchableOpacity>
+        <View style={styles.searchBar}>{/*Search Bar*/}
+          <TextInput
+            placeholder={'Search...'}
+            style={styles.searchTextInput}
+            value={this.state.search}
+            onChangeText={(value) =>{
+              this.handleSearch(value);
+              this.setState({search: value});
+            }}
+          />
         </View>
+        <ScrollView>
+            <View>{/*All the cryptocurrency name tiles*/}
+              <FlatList
+                data={this.state.searchList}
+                keyExtractor={(x, i) => i}
+                renderItem={({ item }) => (
+                  <TouchableOpacity 
+                    onPress={() => {
+                      this.save(item);
+                    }} 
+                  >
+                    <View style={styles.searchTiles}>
+                      <Text style={styles.searchTilesTitle}>{item.name}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+        </ScrollView>
       </View>
     );
   }
@@ -64,20 +131,25 @@ class AddCard extends React.Component {
 
 //Styles
 const styles = StyleSheet.create({
-  footer:{
-    flexDirection: 'row', 
-    height: 40, 
-    backgroundColor: 'green',
+  searchBar: {
+    backgroundColor: 'white',
   },
-  footerText: {
-    color: 'white',
-    fontSize: 20,   
+  searchTextInput: {
+    marginLeft: 10, 
+    marginRight: 10,
   },
-  footerButton: {
-    width: win.width/2,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center', 
+  searchTiles: {
+    marginRight: 10,
+    marginLeft: 10, 
+    marginTop: 10, 
+    flex: 1, 
+    backgroundColor: 'green', 
+    alignItems: 'center',
+  },
+  searchTilesTitle: {
+    color: 'white', 
+    marginTop: 10, 
+    marginBottom: 10,
   },
 
 });

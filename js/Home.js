@@ -157,7 +157,10 @@ class HomeScreen extends React.Component {
           let masterList = [];
           for(let i = 0; i<responseJson.length; i++)
           {
-            masterList.push(responseJson[i].name);
+            masterList.push({
+              id: responseJson[i].id,
+              name: responseJson[i].name,
+            });
           }//Gets list of just names and sets to cache
           await AsyncStorage.setItem('MasterList', JSON.stringify(masterList));
         })
@@ -247,7 +250,9 @@ class HomeScreen extends React.Component {
               </View>
             </View>
             <ScrollView style={styles.mainView}>{/*Main Home View*/}
-
+              <Button title={'Remove'} onPress={ async () => {
+                await AsyncStorage.removeItem("CardList");
+              }}/>
             </ScrollView>
           </View>
       </Drawer>
@@ -268,8 +273,8 @@ const styles = StyleSheet.create({
   menu: {
     backgroundColor: 'darkcyan', 
     flex: 1,
-    borderBottomRightRadius: 20,
-    borderTopRightRadius: 20,
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10,
   },
   menuBackColourGreen: {
     flex:1,
@@ -278,7 +283,7 @@ const styles = StyleSheet.create({
   menuBackColourBlack: {
     flex:1,
     backgroundColor: 'black', 
-    borderTopRightRadius: 20,
+    borderTopRightRadius: 10,
   },
   mainView: {
     flex: 1,

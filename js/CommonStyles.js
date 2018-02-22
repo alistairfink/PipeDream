@@ -36,9 +36,9 @@ export default StyleSheet.create({
   menuIcon: {
     height:27,
     width:27,
-    marginLeft: 7,
+    marginLeft: 12,
     marginTop: 7,
-    marginRight: 10,
+    marginRight: 7,
   },
   topBarRigthInner:{
   	flexDirection: 'row', 

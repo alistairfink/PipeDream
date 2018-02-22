@@ -100,11 +100,15 @@ class Settings extends React.Component {
         method: 'GET'
       })
       .then( (response) => response.json()) 
-      .then(async(responseJson) => { 
+      .then(async(responseJson) => {
+        //Gets masterList and sets up master list array to save in storage 
         let masterList = [];
         for(let i = 0; i<responseJson.length; i++)
         {
-          masterList.push(responseJson[i].name);
+          masterList.push({
+            id: responseJson[i].id,
+            name: responseJson[i].name,
+          });
         }
         await AsyncStorage.setItem('MasterList', JSON.stringify(masterList));
         ToastAndroid.show('Master List Updated', ToastAndroid.SHORT);

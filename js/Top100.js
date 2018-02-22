@@ -111,7 +111,7 @@ class Top100 extends React.Component {
             {this.state.loaded && 
               <View>{/*Top 100 loop through*/}
                 {this.top100.map(currency => (
-                  <Text style={{color: 'white'}} key={currency.id}>{currency.name}</Text>
+                  <Text style={{color: 'white'}} key={currency.id}>{currency.name}    {currency.price_usd}</Text>
                 ))}
               </View>
             }
