@@ -105,25 +105,22 @@ class AddCard extends React.Component {
             }}
           />
         </View>
-        <ScrollView>
-            <View>{/*All the cryptocurrency name tiles*/}
-              <FlatList
-                data={this.state.searchList}
-                keyExtractor={(x, i) => i}
-                renderItem={({ item }) => (
-                  <TouchableOpacity 
-                    onPress={() => {
-                      this.save(item);
-                    }} 
-                  >
-                    <View style={styles.searchTiles}>
-                      <Text style={styles.searchTilesTitle}>{item.name}</Text>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              />
-            </View>
-        </ScrollView>
+          {/*All the cryptocurrency name tiles*/}
+          <FlatList
+            data={this.state.searchList}
+            keyExtractor={(x, i) => i}
+            renderItem={({ item }) => (
+              <TouchableOpacity 
+                onPress={() => {
+                  this.save(item);
+                }} 
+              >
+                <View style={styles.searchTiles}>
+                  <Text style={styles.searchTilesTitle}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
       </View>
     );
   }

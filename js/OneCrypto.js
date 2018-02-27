@@ -45,7 +45,7 @@ class OneCrypto extends React.Component {
           <ScrollView> 
             {params && 
               <View>{/*Crypto Info*/}
-                <Image  source={{uri: 'https://files.coinmarketcap.com/static/img/coins/128x128/'+params.id+'.png'}} style={{width: 100, height: 100}}/>{/*Image of crypto*/}
+                {/*<Image  source={{uri: 'https://files.coinmarketcap.com/static/img/coins/128x128/'+params.id+'.png'}} style={{width: 100, height: 100}}/>Image of crypto*/}
                 <Text style={{color: 'white', fontSize: 20}}>{params.price_usd}</Text>
                 <Text style={{color: 'white', fontSize: 20}}>Test</Text>
                 <Text style={{color: 'white', fontSize: 20}}>Test</Text>
