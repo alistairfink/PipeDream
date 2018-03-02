@@ -40,6 +40,10 @@ const menuItems = {//Static menu items
     display: 'Settings',
     route: 'Settings',
   },
+  Converter: {
+    display: 'Converter',
+    route: 'Converter',
+  },
 };
 
 class HomeScreen extends React.Component {

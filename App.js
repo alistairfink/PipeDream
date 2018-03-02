@@ -29,6 +29,7 @@ import Settings from './js/Settings';
 import OneCrypto from './js/OneCrypto';
 import Top100 from './js/Top100';
 import AddCard from './js/AddCard';
+import Converter from './js/Converter.js';
 
 const win = Dimensions.get('window');//Viewport
 
@@ -50,6 +51,9 @@ const RootStack = StackNavigator(
     AddCard: {
       screen: AddCard,
     },
+    Converter: {
+      screen: Converter,
+    }
   },
   {
     headerMode: 'none',
