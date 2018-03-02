@@ -55,6 +55,7 @@ class Converter extends React.Component {
     this.setState({masterList: retrieveMaster});
   }
   chooseCurr(TopBottom){
+    //When opening search list.
     this.setState({search: ''});
     if(TopBottom === 'topCrypto')
     {
@@ -66,15 +67,13 @@ class Converter extends React.Component {
     }
   }
   handleSearch(_input, _list) {
-    //Gets input string and sets lowercase to ignore case.
+    //Same as AddCard.js
     let input = _input.toLowerCase();
     let masterList = this.state.masterList;
-    //Checks each item to see if it matches. If it does it stays
     let searchList = masterList.filter((item) => {
       if(item.name.toLowerCase().includes(input))
         return item;
     })
-    //If there is no search string then searchList == masterList
     if(!input || input === '')
     {
       this.setState({[_list]: masterList});
@@ -85,6 +84,7 @@ class Converter extends React.Component {
     }
   }
   async pickCrypt(TopBottom, crypto){
+    //Gets called when you pick a crypto then fetches data.
     let responseCrypto = '';
     if(TopBottom === 'topCrypto')
     {
@@ -97,14 +97,21 @@ class Converter extends React.Component {
     await fetch('https://api.coinmarketcap.com/v1/ticker/'+crypto.id,{
             method: 'GET'
           })
-          .then( (response) => response.json()) //Convert response to JSON
-          .then((responseJson) => { //Set JSON response to variable and set loaded to true
+          .then( (response) => response.json()) 
+          .then((responseJson) => { 
             responseCrypto = responseJson[0];
           })
-    this.setState({[TopBottom]: responseCrypto, topCryptoVal: 0, bottomCryptoVal: 0,});
+    this.setState({[TopBottom]: responseCrypto, topCryptoVal: 0, bottomCryptoVal: 0});
   }
   convertCrypto(to, val, fromUSD, toUSD)
   {
+    if(!(isFinite(val)))
+    {
+      ToastAndroid.show('Inputed Value Too Large', ToastAndroid.SHORT);
+      this.setState({topCryptoVal: 0, bottomCryptoVal: 0});
+      return;
+    }
+    //Converts Crypto -> USD -> Other Crypto since all the cryptos share USD and BTC prices.
     if(this.state.topCrypto && this.state.bottomCrypto)
     {
       val = val*fromUSD/toUSD;
@@ -120,13 +127,13 @@ class Converter extends React.Component {
           </TouchableOpacity>
           <Text style={CommonStyles.title}>Converter</Text>
         </View>
-        <View style={{flex: 0.5, borderBottomWidth: 4, borderBottomColor: 'gray'}}>
+        <View style={{flex: 0.5, borderBottomWidth: 4, borderBottomColor: 'gray'}}>{/*Top Crypto*/}
           <Button title={'Change Currency'} onPress={() => {
             if(!(this.state.searchTop) && !(this.state.searchBottom))
               this.chooseCurr('topCrypto');
           }}/>
           {this.state.topCrypto &&
-            <View>
+            <View>{/*Only appears after u pick a crypto up top*/}
               <Text style={{color: 'white'}}>{this.state.topCrypto.name}   {this.state.topCrypto.price_usd}</Text>
               <TextInput 
                 keyboardType={'numeric'}
@@ -161,7 +168,7 @@ class Converter extends React.Component {
             </View>
           }
         </View>
-        <View style={{flex: 0.5, borderTopWidth: 4, borderTopColor: 'gray'}}>
+        <View style={{flex: 0.5, borderTopWidth: 4, borderTopColor: 'gray'}}>{/*Same as top crypto but on bottom*/}
           <Button title={'Change Currency'} onPress={() => {
             if(!(this.state.searchTop) && !(this.state.searchBottom))
               this.chooseCurr('bottomCrypto');
@@ -201,9 +208,9 @@ class Converter extends React.Component {
               />
             </View>
           }
-        </View>
+        </View>{/*Below are search windows. Possibly make better by making one then taking values from array. Lazy tho.*/}
         {this.state.searchTop &&
-          <View style={{position: 'absolute', left: 40, width: win.width-80, top: 80, height: win.height-160, backgroundColor: 'lightblue', borderWidth: 2, borderColor: 'green'}}>
+          <View style={styles.searchWindow}>
             <TextInput
               placeholder={'Search...'}
               style={styles.searchTextInput}
@@ -228,15 +235,15 @@ class Converter extends React.Component {
                 </TouchableOpacity>
               )}
             />
-            <View style={{height: 40, backgroundColor: 'green', borderTopColor: 'black', borderTopWidth: 2}}>
-              <TouchableOpacity style={{flex: 1,alignItems: 'center', justifyContent: 'center'}} onPress={() => this.setState({searchTop: false})}>
-                <Text style={{color: 'white'}}>Cancel</Text>
+            <View style={styles.searchWindowChin}>
+              <TouchableOpacity style={styles.searchWindowCancel} onPress={() => this.setState({searchTop: false})}>
+                <Text style={styles.cancelText}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>
         }
         {this.state.searchBottom &&
-          <View style={{position: 'absolute', left: 40, width: win.width-80, top: 80, height: win.height-160, backgroundColor: 'lightblue', borderWidth: 2, borderColor: 'green'}}>
+          <View style={styles.searchWindow}>
             <TextInput
               placeholder={'Search...'}
               style={styles.searchTextInput}
@@ -261,9 +268,9 @@ class Converter extends React.Component {
                 </TouchableOpacity>
               )}
             />
-            <View style={{height: 40, backgroundColor: 'green', borderTopColor: 'black', borderTopWidth: 2}}>
-              <TouchableOpacity style={{flex: 1,alignItems: 'center', justifyContent: 'center'}} onPress={() => this.setState({searchBottom: false})}>
-                <Text style={{color: 'white'}}>Cancel</Text>
+            <View style={styles.searchWindowChin}>
+              <TouchableOpacity style={styles.searchWindowCancel} onPress={() => this.setState({searchBottom: false})}>
+                <Text style={styles.cancelText}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -295,7 +302,30 @@ const styles = StyleSheet.create({
     marginTop: 10, 
     marginBottom: 10,
   },
-
+  searchWindow: {
+    position: 'absolute', 
+    left: 40, 
+    width: win.width-80, 
+    top: 80, 
+    height: win.height-160, 
+    backgroundColor: 'lightblue', 
+    borderWidth: 2, 
+    borderColor: 'green',
+  },
+  searchWindowChin: {
+    height: 40, 
+    backgroundColor: 'green', 
+    borderTopColor: 'black', 
+    borderTopWidth: 2,
+  },
+  searchWindowCancel: {
+    flex: 1,
+    alignItems: 'center', 
+    justifyContent: 'center',
+  },
+  cancelText: {
+    color: 'white',
+  },
 });
 
 export default Converter;
