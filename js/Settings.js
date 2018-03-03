@@ -132,12 +132,16 @@ class Settings extends React.Component {
           {Object.keys(settings).map((setting: string) => (
             <View key={setting}>
               <View style={styles.settingRow}>
-                <Text style={styles.settingText}>{settings[setting].displayText}</Text>{/*Display text for setting.*/}  
+                <View style={styles.settingTextView}>
+                  <Text style={styles.settingText}>{settings[setting].displayText}</Text>{/*Display text for setting.*/}
+                </View>  
                 <View style={styles.settingControl}>
                   {/*For Switch type Controls. Same concept for other types.*/}
                   {settings[setting].optionType === 'switch' &&
                     <Switch
                       value={(this.state)[settings[setting].stateName]}
+                      tintColor="darkslategray"
+                      onTintColor="green"
                       onValueChange={() => {
                         this.setState({[settings[setting].stateName]:!(this.state)[settings[setting].stateName]})
                       }}
@@ -149,8 +153,9 @@ class Settings extends React.Component {
                     <TextInput
                       keyboardType={'numeric'}
                       placeholderTextColor={'white'}
-                      style={{color: 'white'}}
+                      style={{color: 'black', backgroundColor: 'white', borderRadius: 5,}}
                       value={""+(this.state)[settings[setting].stateName]}
+                      underlineColorAndroid="transparent"
                       onChangeText={(value) =>{
                         if(!(isNaN(value)) && value >= settings[setting].options.min && value <= settings[setting].options.max )
                         {
@@ -165,9 +170,10 @@ class Settings extends React.Component {
             </View>
           ))}
           {Object.keys(buttons).map((button: string) => (
-            <View key={button}>
+            <View key={button} style={styles.settingButton}>
               <Button 
                 title={buttons[button].displayText}
+                color='green'
                 onPress={() => {
                   //Switch Case because I couldn't figure out how to do the function call since buttons is outside class
                   //Switch Case was most painless way to implement. Tho most painful to maintain.
@@ -201,7 +207,7 @@ const styles = StyleSheet.create({
   footer:{
     flexDirection: 'row', 
     height: 40, 
-    backgroundColor: 'darkgreen',
+    backgroundColor: 'green',
   },
   footerText: {
     color: 'white',
@@ -214,19 +220,27 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
   },
   menuLine: {
-    borderBottomColor: 'chartreuse', 
+    borderBottomColor: 'lightslategrey', 
     borderBottomWidth: 1,
   },
   settingRow: {
     flexDirection: 'row',
+    margin: 15,
   },
   settingText: {
     color: 'white',
   },
+  settingTextView: {
+    justifyContent: 'center',
+    width: win.width-100,
+  },
   settingControl: {
     flex: 1, 
     alignItems: 'flex-end',
-  }
+  },
+  settingButton: {
+    margin: 15, 
+  },
 });
 
 export default Settings;

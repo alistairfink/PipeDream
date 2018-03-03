@@ -127,7 +127,7 @@ class Converter extends React.Component {
           </TouchableOpacity>
           <Text style={CommonStyles.title}>Convert</Text>
         </View>
-        <View style={[styles.topBottom, {borderBottomWidth: 4, backgroundColor: 'lightcoral'}]}>{/*Top Crypto*/}
+        <View style={[styles.topBottom, {backgroundColor: 'lightcoral', marginBottom: 5}]}>{/*Top Crypto*/}
           {this.state.topCrypto &&
             <View>{/*Only appears after u pick a crypto up top*/}
               <View style={styles.convertInput}>
@@ -151,12 +151,18 @@ class Converter extends React.Component {
                         value = parseFloat(value);
                       }
                       this.setState({topCryptoVal: value});
-                      this.convertCrypto('bottomCryptoVal', value, this.state.topCrypto.price_usd, this.state.bottomCrypto.price_usd);
+                      if(this.state.topCrypto && this.state.bottomCrypto)
+                      {
+                        this.convertCrypto('bottomCryptoVal', value, this.state.topCrypto.price_usd, this.state.bottomCrypto.price_usd);
+                      }
                     }
                     else if(value === '')
                     {
                       this.setState({topCryptoVal: 0});
-                      this.convertCrypto('bottomCryptoVal', 0, this.state.topCrypto.price_usd, this.state.bottomCrypto.price_usd);
+                      if(this.state.topCrypto && this.state.bottomCrypto)
+                      {
+                        this.convertCrypto('bottomCryptoVal', 0, this.state.topCrypto.price_usd, this.state.bottomCrypto.price_usd);
+                      }
                     }
                     else if(isNaN(value) && value.charAt(value.length-1)!=".")
                     {
@@ -171,20 +177,22 @@ class Converter extends React.Component {
                   <Text style={[styles.font, {fontWeight: 'bold'}]}>{this.state.topCrypto.name}</Text>
               </View>
               <View style={styles.currencyNormalConversion}>
-                <Text style={styles.font}>${parseFloat(this.state.topCryptoVal*this.state.topCrypto.price_usd).toFixed(2)} USD  ฿{this.state.topCryptoVal*this.state.topCrypto.price_btc} BTC</Text>
+                <Text style={[styles.font, {fontSize: 22,}]}>${parseFloat(this.state.topCryptoVal*this.state.topCrypto.price_usd).toFixed(2)} USD</Text>
               </View>
             </View>
           }
-          <TouchableOpacity style={[styles.addCurrOuter, {backgroundColor: 'red'}]} onPress={() => {
-            if(!(this.state.searchTop) && !(this.state.searchBottom))
-              this.chooseCurr('topCrypto');
-          }}>
-            <View>
-              <Text style={styles.addCurrText}>Change Currency</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.addCurrOuterView}>
+            <TouchableOpacity style={[styles.addCurrOuter, {backgroundColor: 'red'}]} onPress={() => {
+              if(!(this.state.searchTop) && !(this.state.searchBottom))
+                this.chooseCurr('topCrypto');
+            }}>
+              <View>
+                <Text style={styles.addCurrText}>Change Currency</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={[styles.topBottom, {borderTopWidth: 4, backgroundColor: 'lightblue'}]}>{/*Same as top crypto but on bottom*/}
+        <View style={[styles.topBottom, {backgroundColor: 'lightblue', marginTop: 5,}]}>{/*Same as top crypto but on bottom*/}
           {this.state.bottomCrypto &&
             <View>
               <View style={styles.convertInput}>
@@ -233,18 +241,20 @@ class Converter extends React.Component {
                   <Text style={[styles.font, {fontWeight: 'bold'}]}>{this.state.bottomCrypto.name}</Text>
               </View>
               <View style={styles.currencyNormalConversion}>
-                <Text style={styles.font}>${parseFloat(this.state.bottomCryptoVal*this.state.bottomCrypto.price_usd).toFixed(2)} USD  ฿{this.state.bottomCryptoVal*this.state.bottomCrypto.price_btc} BTC</Text>
+                <Text style={[styles.font, {fontSize: 22,}]}>${parseFloat(this.state.bottomCryptoVal*this.state.bottomCrypto.price_usd).toFixed(2)} USD</Text>
               </View>
             </View>
           } 
-          <TouchableOpacity style={[styles.addCurrOuter, {backgroundColor: 'blue'}]} onPress={() => {
-            if(!(this.state.searchTop) && !(this.state.searchBottom))
-              this.chooseCurr('bottomCrypto');
-          }}>
-            <View>
-              <Text style={styles.addCurrText}>Change Currency</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.addCurrOuterView}>
+            <TouchableOpacity style={[styles.addCurrOuter, {backgroundColor: 'blue'}]} onPress={() => {
+              if(!(this.state.searchTop) && !(this.state.searchBottom))
+                this.chooseCurr('bottomCrypto');
+            }}>
+              <View>
+                <Text style={styles.addCurrText}>Change Currency</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>{/*Below are search windows. Possibly make better by making one then taking values from array. Lazy tho.*/}
         {this.state.searchTop &&
           <View style={styles.searchWindow}>
@@ -367,16 +377,22 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   addCurrOuter: {
-    margin: 30,
-    borderRadius: 15, 
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
     justifyContent: 'center',
+    margin: 0,
+  },
+  addCurrOuterView: {
+    flex: 1, 
+    flexDirection: 'column-reverse', 
+    borderRadius: 5,
   },
   addCurrText: {
     color: 'white', 
     alignSelf: 'center', 
     fontSize: 18, 
-    marginTop: 15, 
-    marginBottom: 15,
+    marginTop: 10, 
+    marginBottom: 10,
   },
   convertInput: {
     marginBottom: 0, 
@@ -391,11 +407,16 @@ const styles = StyleSheet.create({
   topBottom: {
     flex: 0.5, 
     borderColor: 'gray',
+    borderRadius: 10,
+    margin: 20,
+    flexDirection: 'column',
   },
   currencyNormalConversion: {
     flex: 1, 
-    alignItems: 'center', 
-    marginBottom: 50,
+    alignItems: 'center',
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 35,
   },
 });
 

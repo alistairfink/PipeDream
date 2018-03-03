@@ -392,9 +392,9 @@ class HomeScreen extends React.Component {
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'flex-end', flex: 1}}>{/*Percentage Changes*/}
                           <View style={{flexDirection: 'column', alignItems: 'flex-end' , flex: 1}}>
-                            <Text style={styles.cardText}>1 Hour:{" "}</Text>
-                            <Text style={styles.cardText}>24 Hours:{" "}</Text>
-                            <Text style={styles.cardText}>7 Days:{" "}</Text>
+                            <Text style={styles.cardText}>1 Hour:{"  "}</Text>
+                            <Text style={styles.cardText}>24 Hours:{"  "}</Text>
+                            <Text style={styles.cardText}>7 Days:{"  "}</Text>
                           </View>
                           <View style={{flexDirection: 'column', alignItems: 'flex-start' }}>
                              <Text style={styles.cardText}>
@@ -404,7 +404,7 @@ class HomeScreen extends React.Component {
                             {currency.percent_change_1h > 0 &&
                               <Image source={require('../assets/positive.png')} style={styles.changeIndicator}/>
                             }
-                            {" "}</Text>
+                            {"  "}</Text>
                             <Text style={styles.cardText}>
                               {currency.percent_change_24h < 0 &&
                                 <Image source={require('../assets/negative.png')} style={styles.changeIndicator}/>
@@ -412,7 +412,7 @@ class HomeScreen extends React.Component {
                               {currency.percent_change_24h > 0 &&
                                 <Image source={require('../assets/positive.png')} style={styles.changeIndicator}/>
                               }
-                            {" "}</Text>
+                            {"  "}</Text>
                             <Text style={styles.cardText}>
                               {currency.percent_change_7d < 0 &&
                                 <Image source={require('../assets/negative.png')} style={styles.changeIndicator}/>
@@ -420,12 +420,12 @@ class HomeScreen extends React.Component {
                               {currency.percent_change_7d > 0 &&
                                 <Image source={require('../assets/positive.png')} style={styles.changeIndicator}/>
                               }
-                            {" "}</Text>
+                            {"  "}</Text>
                             </View>
                             <View style={{flexDirection: 'column', alignItems: 'flex-end' }}>
-                              <Text style={styles.cardText}>{" "}{currency.percent_change_1h} %</Text>
-                              <Text style={styles.cardText}>{" "}{currency.percent_change_24h} %</Text>
-                              <Text style={styles.cardText}>{" "}{currency.percent_change_7d} %</Text>
+                              <Text style={styles.cardText}>{currency.percent_change_1h} %</Text>
+                              <Text style={styles.cardText}>{currency.percent_change_24h} %</Text>
+                              <Text style={styles.cardText}>{currency.percent_change_7d} %</Text>
                             </View>
                         </View>
                       </View>
