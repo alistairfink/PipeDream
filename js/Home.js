@@ -17,6 +17,7 @@ import {
   AsyncStorage,
   NetInfo,
   TouchableNativeFeedback,
+  RefreshControl,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -54,6 +55,7 @@ class HomeScreen extends React.Component {
       refreshNow: false,
       loadedMain: false,
       cardData: [],
+      refreshing: false,
     };
     this.menuRetrieve = [];//Retrieve top X
   }
@@ -263,6 +265,11 @@ class HomeScreen extends React.Component {
     await AsyncStorage.setItem('CardData', JSON.stringify(localData));
     this.setState({cardData: localData});
   }
+  async pullRefresh() {
+    this.setState({refreshing: true});
+    await this.updateCards();
+    this.setState({refreshing: false});
+  }
   render() {
     return (
       <Drawer 
@@ -341,7 +348,16 @@ class HomeScreen extends React.Component {
                 </View>
               </View>
             </View>
-            <ScrollView style={styles.mainView}>{/*Main Home View*/}
+            <ScrollView 
+              style={styles.mainView}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this.pullRefresh.bind(this)}
+                  title="Loading..."
+                />
+               }
+            >{/*Main Home View*/}
               {this.state.loadedMain &&
                 <View>
                   {this.state.cardData.map((currency,index) => (
