@@ -444,19 +444,19 @@ class HomeScreen extends React.Component {
 //Styles
 const styles = StyleSheet.create({
   menuItem: {
-    fontSize: 28,
+    fontSize: 25,
     margin: 10,
     color: 'white',
   },
   menuLine: {
     borderBottomColor: 'lightslategrey', 
     borderBottomWidth: 1,
-    marginRight: 15,
+    marginRight: 30,
   },
   menu: {
     backgroundColor: 'green', 
     flex: 1,
-    borderBottomRightRadius: 10,
+    borderBottomRightRadius: 5,
   },
   menuBackColourGreen: {
     flex:1,
@@ -507,19 +507,20 @@ const styles = StyleSheet.create({
   menuTitleBox: {
     flex: 1, 
     backgroundColor: 'darkgreen',
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    marginRight: 5,
   },
   menuTitle: {
-    alignSelf: 'center', 
-    fontSize: 35,
+    fontSize: 28,
+    fontWeight: 'bold',
   },
 });
 const drawerStyles = {
   drawer: { 
     shadowColor: '#000000', 
     shadowOpacity: 0.8, 
-    shadowRadius: 3
+    shadowRadius: 3,
   },
 };
 

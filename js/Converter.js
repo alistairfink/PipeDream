@@ -125,101 +125,140 @@ class Converter extends React.Component {
           <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
             <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
           </TouchableOpacity>
-          <Text style={CommonStyles.title}>Converter</Text>
+          <Text style={CommonStyles.title}>Convert</Text>
         </View>
-        <View style={{flex: 0.5, borderBottomWidth: 4, borderBottomColor: 'gray'}}>{/*Top Crypto*/}
-          <Button title={'Change Currency'} onPress={() => {
-            if(!(this.state.searchTop) && !(this.state.searchBottom))
-              this.chooseCurr('topCrypto');
-          }}/>
+        <View style={[styles.topBottom, {borderBottomWidth: 4, backgroundColor: 'lightcoral'}]}>{/*Top Crypto*/}
           {this.state.topCrypto &&
             <View>{/*Only appears after u pick a crypto up top*/}
-              <Text style={{color: 'white'}}>{this.state.topCrypto.name}   {this.state.topCrypto.price_usd}</Text>
-              <TextInput 
-                keyboardType={'numeric'}
-                style={{color: 'white'}}
-                value={""+this.state.topCryptoVal}
-                onChangeText={(value) =>{
-                  //value = parseFloat(value);
-                  if(!(isNaN(value)) && value!=="")
-                  {
-                    if(value.charAt(value.length-1)===".")
+              <View style={styles.convertInput}>
+                <TextInput 
+                  keyboardType={'numeric'}
+                  style={{color: 'white'}}
+                  value={""+this.state.topCryptoVal}
+                  style={styles.font}
+                  underlineColorAndroid="transparent"
+                  onChangeText={(value) =>{
+                    //value = parseFloat(value);
+                    if(!(isNaN(value)) && value!=="")
                     {
-                      value = parseFloat(value);
-                      value += '.';
+                      if(value.charAt(value.length-1)===".")
+                      {
+                        value = parseFloat(value);
+                        value += '.';
+                      }
+                      else
+                      {
+                        value = parseFloat(value);
+                      }
+                      this.setState({topCryptoVal: value});
+                      this.convertCrypto('bottomCryptoVal', value, this.state.topCrypto.price_usd, this.state.bottomCrypto.price_usd);
                     }
-                    else
+                    else if(value === '')
                     {
-                      value = parseFloat(value);
+                      this.setState({topCryptoVal: 0});
+                      this.convertCrypto('bottomCryptoVal', 0, this.state.topCrypto.price_usd, this.state.bottomCrypto.price_usd);
                     }
-                    this.setState({topCryptoVal: value});
-                    this.convertCrypto('bottomCryptoVal', value, this.state.topCrypto.price_usd, this.state.bottomCrypto.price_usd);
-                  }
-                  else if(value === '')
-                  {
-                    this.setState({topCryptoVal: 0});
-                    this.convertCrypto('bottomCryptoVal', 0, this.state.topCrypto.price_usd, this.state.bottomCrypto.price_usd);
-                  }
-                  else if(isNaN(value) && value.charAt(value.length-1)!=".")
-                  {
-                  }
-                }}
-              />
+                    else if(isNaN(value) && value.charAt(value.length-1)!=".")
+                    {
+                    }
+                  }}
+                />
+                <View style={{justifyContent: 'center'}}>
+                  <Text style={styles.font}>{this.state.topCrypto.symbol}</Text>
+                </View>
+              </View>
+              <View style={styles.currencyNormalConversion}>
+                  <Text style={[styles.font, {fontWeight: 'bold'}]}>{this.state.topCrypto.name}</Text>
+              </View>
+              <View style={styles.currencyNormalConversion}>
+                <Text style={styles.font}>${parseFloat(this.state.topCryptoVal*this.state.topCrypto.price_usd).toFixed(2)} USD  ฿{this.state.topCryptoVal*this.state.topCrypto.price_btc} BTC</Text>
+              </View>
             </View>
           }
-        </View>
-        <View style={{flex: 0.5, borderTopWidth: 4, borderTopColor: 'gray'}}>{/*Same as top crypto but on bottom*/}
-          <Button title={'Change Currency'} onPress={() => {
+          <TouchableOpacity style={[styles.addCurrOuter, {backgroundColor: 'red'}]} onPress={() => {
             if(!(this.state.searchTop) && !(this.state.searchBottom))
-              this.chooseCurr('bottomCrypto');
-          }}/>
+              this.chooseCurr('topCrypto');
+          }}>
+            <View>
+              <Text style={styles.addCurrText}>Change Currency</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.topBottom, {borderTopWidth: 4, backgroundColor: 'lightblue'}]}>{/*Same as top crypto but on bottom*/}
           {this.state.bottomCrypto &&
             <View>
-              <Text style={{color: 'white'}}>{this.state.bottomCrypto.name}   {this.state.bottomCrypto.price_usd}</Text>
-              <TextInput 
-                keyboardType={'numeric'}
-                style={{color: 'white'}}
-                value={""+this.state.bottomCryptoVal}
-                onChangeText={(value) =>{
-                  //value = parseFloat(value);
-                  if(!(isNaN(value)) && value!=="")
-                  {
-                    if(value.charAt(value.length-1)===".")
+              <View style={styles.convertInput}>
+                <TextInput 
+                  keyboardType={'numeric'}
+                  value={""+this.state.bottomCryptoVal}
+                  style={styles.font}
+                  underlineColorAndroid="transparent"
+                  onChangeText={(value) =>{
+                    //value = parseFloat(value);
+                    if(!(isNaN(value)) && value!=="")
                     {
-                      value = parseFloat(value);
-                      value += '.';
+                      if(value.charAt(value.length-1)===".")
+                      {
+                        value = parseFloat(value);
+                        value += '.';
+                      }
+                      else
+                      {
+                        value = parseFloat(value);
+                      }
+                      this.setState({bottomCryptoVal: value});
+                      if(this.state.topCrypto && this.state.bottomCrypto)
+                      {
+                        this.convertCrypto('topCryptoVal', value, this.state.bottomCrypto.price_usd, this.state.topCrypto.price_usd);
+                      }
                     }
-                    else
+                    else if(value === '')
                     {
-                      value = parseFloat(value);
+                      this.setState({bottomCryptoVal: 0});
+                      if(this.state.topCrypto && this.state.bottomCrypto)
+                      {
+                        this.convertCrypto('topCryptoVal', 0, this.state.bottomCrypto.price_usd, this.state.topCrypto.price_usd);
+                      }
                     }
-                    this.setState({bottomCryptoVal: value});
-                    this.convertCrypto('topCryptoVal', value, this.state.bottomCrypto.price_usd, this.state.topCrypto.price_usd);
-                  }
-                  else if(value === '')
-                  {
-                    this.setState({bottomCryptoVal: 0});
-                    this.convertCrypto('topCryptoVal', 0, this.state.bottomCrypto.price_usd, this.state.topCrypto.price_usd);
-                  }
-                  else if(isNaN(value) && value.charAt(value.length-1)!=".")
-                  {
-                  }
-                }}
-              />
+                    else if(isNaN(value) && value.charAt(value.length-1)!=".")
+                    {
+                    }
+                  }}
+                />
+                <View style={{justifyContent: 'center'}}>
+                  <Text style={styles.font}>{this.state.bottomCrypto.symbol}</Text>
+                </View>
+              </View>
+              <View style={styles.currencyNormalConversion}>
+                  <Text style={[styles.font, {fontWeight: 'bold'}]}>{this.state.bottomCrypto.name}</Text>
+              </View>
+              <View style={styles.currencyNormalConversion}>
+                <Text style={styles.font}>${parseFloat(this.state.bottomCryptoVal*this.state.bottomCrypto.price_usd).toFixed(2)} USD  ฿{this.state.bottomCryptoVal*this.state.bottomCrypto.price_btc} BTC</Text>
+              </View>
             </View>
-          }
+          } 
+          <TouchableOpacity style={[styles.addCurrOuter, {backgroundColor: 'blue'}]} onPress={() => {
+            if(!(this.state.searchTop) && !(this.state.searchBottom))
+              this.chooseCurr('bottomCrypto');
+          }}>
+            <View>
+              <Text style={styles.addCurrText}>Change Currency</Text>
+            </View>
+          </TouchableOpacity>
         </View>{/*Below are search windows. Possibly make better by making one then taking values from array. Lazy tho.*/}
         {this.state.searchTop &&
           <View style={styles.searchWindow}>
-            <TextInput
-              placeholder={'Search...'}
-              style={styles.searchTextInput}
-              value={this.state.search}
-              onChangeText={(value) =>{
-                this.handleSearch(value, 'searchListTop');
-                this.setState({search: value});
-              }}
-            />
+            <View style={{backgroundColor: 'white'}}>
+              <TextInput
+                placeholder={'Search...'}
+                style={styles.searchTextInput}
+                value={this.state.search}
+                onChangeText={(value) =>{
+                  this.handleSearch(value, 'searchListTop');
+                  this.setState({search: value});
+                }}
+              />
+            </View>
             <FlatList
               data={this.state.searchListTop}
               keyExtractor={(x, i) => i}
@@ -244,15 +283,17 @@ class Converter extends React.Component {
         }
         {this.state.searchBottom &&
           <View style={styles.searchWindow}>
-            <TextInput
-              placeholder={'Search...'}
-              style={styles.searchTextInput}
-              value={this.state.search}
-              onChangeText={(value) =>{
-                this.handleSearch(value, 'searchListBottom');
-                this.setState({search: value});
-              }}
-            />
+            <View style={{backgroundColor: 'white'}}>
+              <TextInput
+                placeholder={'Search...'}
+                style={styles.searchTextInput}
+                value={this.state.search}
+                onChangeText={(value) =>{
+                  this.handleSearch(value, 'searchListBottom');
+                  this.setState({search: value});
+                }}
+              />
+            </View>
             <FlatList
               data={this.state.searchListBottom}
               keyExtractor={(x, i) => i}
@@ -309,15 +350,13 @@ const styles = StyleSheet.create({
     width: win.width-80, 
     top: 80, 
     height: win.height-160, 
-    backgroundColor: 'lightblue', 
+    backgroundColor: 'black', 
     borderWidth: 2, 
     borderColor: 'green',
   },
   searchWindowChin: {
     height: 40, 
-    backgroundColor: 'green', 
-    borderTopColor: 'black', 
-    borderTopWidth: 2,
+    backgroundColor: 'darkgreen',
   },
   searchWindowCancel: {
     flex: 1,
@@ -326,6 +365,37 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     color: 'white',
+  },
+  addCurrOuter: {
+    margin: 30,
+    borderRadius: 15, 
+    justifyContent: 'center',
+  },
+  addCurrText: {
+    color: 'white', 
+    alignSelf: 'center', 
+    fontSize: 18, 
+    marginTop: 15, 
+    marginBottom: 15,
+  },
+  convertInput: {
+    marginBottom: 0, 
+    borderRadius: 5, 
+    flexDirection: 'row',  
+    justifyContent: 'center',
+  },
+  font: {
+    fontSize: 27,
+    color: 'black',
+  },
+  topBottom: {
+    flex: 0.5, 
+    borderColor: 'gray',
+  },
+  currencyNormalConversion: {
+    flex: 1, 
+    alignItems: 'center', 
+    marginBottom: 50,
   },
 });
 
