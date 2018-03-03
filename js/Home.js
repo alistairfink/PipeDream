@@ -29,9 +29,9 @@ import CommonStyles from './CommonStyles';
 
 const win = Dimensions.get('window');//Viewport
 const menuItems = {//Static menu items
-  Home: {
-    display: 'Home',
-    route: 'Home',
+  Converter: {
+    display: 'Convert',
+    route: 'Converter',
   },
   Top100: {
     display: 'Top 100',
@@ -40,10 +40,6 @@ const menuItems = {//Static menu items
   Settings: {
     display: 'Settings',
     route: 'Settings',
-  },
-  Converter: {
-    display: 'Converter',
-    route: 'Converter',
   },
 };
 
@@ -67,6 +63,7 @@ class HomeScreen extends React.Component {
     this.menuDrawer.close();//Closes drawer
   };
   openControlPanel = () => {
+    this.refs._menuScroll.scrollTo({x:0, y:0, animated:true});//To Scroll back to top
     this.menuDrawer.open();//Opens drawer
   };
   async getTopTen() {
@@ -283,7 +280,10 @@ class HomeScreen extends React.Component {
         content={
           <View style={styles.menuBackColourGreen}>
             <View style={styles.menuBackColourBlack}>
-              <ScrollView style={styles.menu}>{/*Side bar menu*/}
+              <ScrollView style={styles.menu} overScrollMode="never" showsVerticalScrollIndicator={false} ref='_menuScroll'>{/*Side bar menu*/}
+                <View style={styles.menuTitleBox}>
+                  <Text style={[styles.menuItem, styles.menuTitle]} >Menu</Text>
+                </View>
                 {Object.keys(menuItems).map((name: string) => (
                   <View key={name}>{/*Menu Items*/}
                     <TouchableOpacity 
@@ -299,7 +299,9 @@ class HomeScreen extends React.Component {
                     >
                       <Text style={styles.menuItem}>{menuItems[name].display}</Text>
                     </TouchableOpacity>
-                    <View style={styles.menuLine}></View>
+                    {name != "Settings" &&
+                      <View style={styles.menuLine}></View>
+                    }
                   </View>
                 ))}
                 {!(this.state.loaded) &&
@@ -307,6 +309,9 @@ class HomeScreen extends React.Component {
                 }{/*Until items get from api then load. THIS SHOULD ONLY EVER HAPPEN ONCE*/}
                 {this.state.loaded &&
                   <View>
+                    <View style={styles.menuTitleBox}>
+                      <Text style={[styles.menuItem, styles.menuTitle]} >Top {this.menuRetrieve.length}</Text>
+                    </View>
                     {this.menuRetrieve.map(currency => (
                       <View key={currency.rank}>{/*After top X gets from api then display*/}
                           <TouchableOpacity 
@@ -315,7 +320,7 @@ class HomeScreen extends React.Component {
                               this.closeControlPanel();
                             }} 
                           >
-                            <Text style={styles.menuItem} >{currency.rank}   {currency.name}</Text>
+                            <Text style={styles.menuItem} >{currency.rank}. {currency.name}</Text>
                           </TouchableOpacity>
                           <View style={styles.menuLine}></View>
                       </View>
@@ -382,7 +387,7 @@ class HomeScreen extends React.Component {
                       <View style={{flexDirection: 'row', margin: 10}}>{/*Prices and Rank*/}
                         <View style={{flexDirection: 'column'}}>
                           <Text style={styles.cardText}>Rank: # {currency.rank}</Text>
-                          <Text style={styles.cardText}>Price(USD): $ {currency.price_usd}</Text>
+                          <Text style={styles.cardText}>Price(USD): $ {parseFloat(currency.price_usd).toFixed(2)}</Text>
                           <Text style={styles.cardText}>Price(BTC): ฿ {currency.price_btc}</Text>
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'flex-end', flex: 1}}>{/*Percentage Changes*/}
@@ -439,18 +444,19 @@ class HomeScreen extends React.Component {
 //Styles
 const styles = StyleSheet.create({
   menuItem: {
-    fontSize: 30,
-    margin: 5,
+    fontSize: 28,
+    margin: 10,
+    color: 'white',
   },
   menuLine: {
-    borderBottomColor: 'chartreuse', 
+    borderBottomColor: 'lightslategrey', 
     borderBottomWidth: 1,
+    marginRight: 15,
   },
   menu: {
-    backgroundColor: 'darkcyan', 
+    backgroundColor: 'green', 
     flex: 1,
     borderBottomRightRadius: 10,
-    borderTopRightRadius: 10,
   },
   menuBackColourGreen: {
     flex:1,
@@ -458,15 +464,13 @@ const styles = StyleSheet.create({
   },
   menuBackColourBlack: {
     flex:1,
-    backgroundColor: 'black', 
-    borderTopRightRadius: 10,
+    backgroundColor: 'black',
   },
   mainView: {
     flex: 1,
     backgroundColor: 'black',
   },
   cardOuter: {
-    backgroundColor: 'lightblue', 
     margin: 15,
     marginBottom: 0,
     borderRadius: 5,
@@ -499,6 +503,16 @@ const styles = StyleSheet.create({
   changeIndicator: {
     width:45,
     height: 45,
+  },
+  menuTitleBox: {
+    flex: 1, 
+    backgroundColor: 'darkgreen',
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+  },
+  menuTitle: {
+    alignSelf: 'center', 
+    fontSize: 35,
   },
 });
 const drawerStyles = {

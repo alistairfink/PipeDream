@@ -296,6 +296,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     backgroundColor: 'green', 
     alignItems: 'center',
+    borderRadius: 5,
   },
   searchTilesTitle: {
     color: 'white', 
