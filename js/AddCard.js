@@ -85,14 +85,31 @@ class AddCard extends React.Component {
       this.setState({searchList: searchList});
     }
   }
+  async search(_input) {
+    //For searching. Basically piggybacking off this component and onecrypto component. 2 Places in render below with conditional for search/addcard
+    let responseObj = null;
+    await fetch('https://api.coinmarketcap.com/v1/ticker/'+_input.id,{
+            method: 'GET'
+          })
+          .then( (response) => response.json()) 
+          .then((responseJson) => { 
+            responseObj = responseJson[0];
+          })
+    this.props.navigation.navigate('OneCrpyto',responseObj);
+  }
   render() {
+    const { params } = this.props.navigation.state;//Get params.
     return (
       <View style={CommonStyles.container}>
         <View style={CommonStyles.topBar}>{/*Top Bar*/}
           <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
             <Image source={require('../assets/cancelIcon.png')} style={CommonStyles.backIcon}/>
           </TouchableOpacity>
-          <Text style={CommonStyles.title}>Add Card</Text>
+          {params.passThrough ? (
+            <Text style={CommonStyles.title}>Search</Text>
+            ) : (  
+            <Text style={CommonStyles.title}>Add Card</Text>
+          )}
         </View>
         <View style={styles.searchBar}>{/*Search Bar*/}
           <TextInput
@@ -112,7 +129,14 @@ class AddCard extends React.Component {
             renderItem={({ item }) => (
               <TouchableOpacity 
                 onPress={() => {
-                  this.save(item);
+                  if(params.passThrough)
+                  {
+                    this.search(item);
+                  }
+                  else
+                  {
+                    this.save(item);
+                  }
                 }} 
               >
                 <View style={styles.searchTiles}>

@@ -32,14 +32,22 @@ const menuItems = {//Static menu items
   Converter: {
     display: 'Convert',
     route: 'Converter',
+    passThrough: null,
   },
   Top100: {
     display: 'Top 100',
     route: 'Top100',
+    passThrough: null,
+  },
+  Search: {
+    display: 'Search',
+    route: 'AddCard',
+    passThrough: {},
   },
   Settings: {
     display: 'Settings',
     route: 'Settings',
+    passThrough: null,
   },
 };
 
@@ -288,12 +296,10 @@ class HomeScreen extends React.Component {
                   <View key={name}>{/*Menu Items*/}
                     <TouchableOpacity 
                       onPress={() => {
-                        if(!(name==='Home'))
-                        {  
-                          this.props.navigation.navigate(menuItems[name].route,{
-                            onGoBack: (refreshOption, optionalObj) => this.onGoBack(refreshOption, optionalObj),
-                          });//Callback function to refresh this view
-                        }
+                        this.props.navigation.navigate(menuItems[name].route,{
+                          passThrough: menuItems[name].passThrough,
+                          onGoBack: (refreshOption, optionalObj) => this.onGoBack(refreshOption, optionalObj),
+                        });//Callback function to refresh this view
                         this.closeControlPanel(); 
                       }} 
                     >
