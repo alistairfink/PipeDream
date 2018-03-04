@@ -88,14 +88,21 @@ class AddCard extends React.Component {
   async search(_input) {
     //For searching. Basically piggybacking off this component and onecrypto component. 2 Places in render below with conditional for search/addcard
     let responseObj = null;
-    await fetch('https://api.coinmarketcap.com/v1/ticker/'+_input.id,{
-            method: 'GET'
-          })
-          .then( (response) => response.json()) 
-          .then((responseJson) => { 
-            responseObj = responseJson[0];
-          })
-    this.props.navigation.navigate('OneCrpyto',responseObj);
+    try
+    {
+      await fetch('https://api.coinmarketcap.com/v1/ticker/'+_input.id,{
+              method: 'GET'
+            })
+            .then( (response) => response.json()) 
+            .then((responseJson) => { 
+              responseObj = responseJson[0];
+            })
+      this.props.navigation.navigate('OneCrpyto',responseObj);
+    }
+    catch(error)
+    {//If can't load the log error.
+      console.log(error);
+    }
   }
   render() {
     const { params } = this.props.navigation.state;//Get params.
@@ -184,7 +191,7 @@ const styles = StyleSheet.create({
   clearSearch: {
     width: 25, 
     height: 25,
-    marginRight: 5,
+    marginRight: 10,
   },
 });
 

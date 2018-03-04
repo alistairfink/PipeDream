@@ -84,24 +84,31 @@ class Converter extends React.Component {
     }
   }
   async pickCrypt(TopBottom, crypto){
-    //Gets called when you pick a crypto then fetches data.
-    let responseCrypto = '';
-    if(TopBottom === 'topCrypto')
+    try
     {
-      this.setState({searchTop: false});
+      //Gets called when you pick a crypto then fetches data.
+      let responseCrypto = '';
+      if(TopBottom === 'topCrypto')
+      {
+        this.setState({searchTop: false});
+      }
+      else if(TopBottom === 'bottomCrypto')
+      {
+        this.setState({searchBottom: false});
+      }
+      await fetch('https://api.coinmarketcap.com/v1/ticker/'+crypto.id,{
+              method: 'GET'
+            })
+            .then( (response) => response.json()) 
+            .then((responseJson) => { 
+              responseCrypto = responseJson[0];
+            })
+      this.setState({[TopBottom]: responseCrypto, topCryptoVal: 0, bottomCryptoVal: 0}); 
     }
-    else if(TopBottom === 'bottomCrypto')
-    {
-      this.setState({searchBottom: false});
+    catch(error)
+    {//If can't load the log error.
+      console.log(error);
     }
-    await fetch('https://api.coinmarketcap.com/v1/ticker/'+crypto.id,{
-            method: 'GET'
-          })
-          .then( (response) => response.json()) 
-          .then((responseJson) => { 
-            responseCrypto = responseJson[0];
-          })
-    this.setState({[TopBottom]: responseCrypto, topCryptoVal: 0, bottomCryptoVal: 0});
   }
   convertCrypto(to, val, fromUSD, toUSD)
   {
@@ -434,7 +441,7 @@ const styles = StyleSheet.create({
   clearSearch: {
     width: 25, 
     height: 25,
-    marginRight: 5,
+    marginRight: 10,
   },
 });
 

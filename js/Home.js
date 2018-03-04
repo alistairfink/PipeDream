@@ -264,6 +264,7 @@ class HomeScreen extends React.Component {
     let localList = await AsyncStorage.getItem('CardList');
     localList = JSON.parse(localList);
     let localData = this.state.cardData;
+    ToastAndroid.show('Card Deleted - ' + localList[position].name, ToastAndroid.SHORT);
     localList.splice(position, 1);
     localData.splice(position, 1);
     await AsyncStorage.setItem('CardList', JSON.stringify(localList));
