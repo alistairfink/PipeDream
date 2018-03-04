@@ -1,25 +1,7 @@
 //Imports
 import React from 'react';
 import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  StatusBar, 
-  Platform, 
-  Image, 
-  Dimensions, 
-  Button, 
-  TouchableHighlight, 
-  ToastAndroid, 
-  BackHandler,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import Drawer from 'react-native-drawer';
-import { 
   StackNavigator,
-  TabNavigator,
 } from 'react-navigation';
 import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 
@@ -30,8 +12,6 @@ import OneCrypto from './js/OneCrypto';
 import Top100 from './js/Top100';
 import AddCard from './js/AddCard';
 import Converter from './js/Converter.js';
-
-const win = Dimensions.get('window');//Viewport
 
 //Navigator for pages
 const RootStack = StackNavigator(

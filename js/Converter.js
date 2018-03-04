@@ -3,21 +3,14 @@ import {
   StyleSheet, 
   Text, 
   View, 
-  StatusBar, 
-  Platform, 
   Image, 
   Dimensions, 
-  Button, 
-  TouchableHighlight, 
   ToastAndroid, 
-  BackHandler,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   ScrollView,
-  AsyncStorage,
-  NetInfo,
   TextInput,
   FlatList,
+  AsyncStorage,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 

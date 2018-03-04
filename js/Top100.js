@@ -4,15 +4,9 @@ import {
   StyleSheet, 
   Text, 
   View, 
-  StatusBar, 
-  Platform, 
   Image, 
   Dimensions, 
-  Button, 
-  TouchableHighlight, 
   ToastAndroid, 
-  BackHandler,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   ScrollView,
   AsyncStorage,
@@ -90,32 +84,109 @@ class Top100 extends React.Component {
       console.log(error);
     }
   } 
+  styleBackgroundColour(index) {
+    let colour = null;
+    if(index%2===0)
+    {
+      colour = '#404040';
+    }
+    else
+    {
+      colour = 'black';
+    }
+    return {
+      backgroundColor: colour,
+      borderRightColor: 'lightslategrey',
+      borderRightWidth: 2,
+    }
+  }
   render() {
     return (
-     <View style={CommonStyles.container}>
-          <View style={CommonStyles.topBar}>{/*Top Bar*/}
-            <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
-              <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
+      <View style={CommonStyles.container}>
+        <View style={CommonStyles.topBar}>{/*Top Bar*/}
+          <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
+            <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
+          </TouchableOpacity>
+          <Text style={CommonStyles.title}>Top 100 Cryptos</Text>{/*Top Bar*/}
+          <View style={CommonStyles.topBarRight}>
+            <TouchableOpacity onPress={() => {this.top100Pull()}}>
+              <Image source={require('../assets/refreshIcon.png')} style={CommonStyles.menuIcon}/>
             </TouchableOpacity>
-            <Text style={CommonStyles.title}>Top 100 Cryptos</Text>{/*Top Bar*/}
-            <View style={CommonStyles.topBarRight}>
-              <TouchableOpacity onPress={() => {this.top100Pull()}}>
-                <Image source={require('../assets/refreshIcon.png')} style={CommonStyles.menuIcon}/>
-              </TouchableOpacity>
-            </View>
           </View>
+        </View>
+        {!(this.state.loaded) &&
+          <View style={styles.loading}>
+            <Text style={styles.font}>Loading...</Text>
+          </View>
+        }
+        {this.state.loaded && 
           <ScrollView> 
-            {!(this.state.loaded) &&
-              <Text style={{color:'white'}}>Loading...</Text>
-            }
-            {this.state.loaded && 
-              <View>{/*Top 100 loop through*/}
-                {this.top100.map(currency => (
-                  <Text style={{color: 'white'}} key={currency.id}>{currency.name}    {currency.price_usd}</Text>
+            <View style={{flexDirection: 'row'}}>{/*Loops through multiple times to make columns. Refractor to be more efficient?*/}
+              <View style={styles.column}>
+                <View style={styles.titleBar}>
+                  <Text style={styles.font}>Symbol</Text>
+                </View>
+                {this.top100.map((currency,index) => (
+                  <TouchableOpacity key={index} onPress={() => this.props.navigation.navigate('OneCrpyto',currency)}>
+                    <View style={this.styleBackgroundColour(index)}>
+                      <Text style={styles.font}>{currency.symbol}</Text>
+                    </View>
+                  </TouchableOpacity>
                 ))}
               </View>
-            }
+              <ScrollView horizontal={true}>
+                <View style={styles.column}>
+                  <View style={styles.titleBar}>
+                    <Text style={styles.font}>Rank</Text>
+                  </View>
+                  {this.top100.map((currency,index) => (
+                    <View key={index}>
+                      <View style={[this.styleBackgroundColour(index)]}>
+                        <Text style={styles.font}># {currency.rank}</Text>
+                      </View>
+                    </View>
+                  ))}
+                </View> 
+                <View style={styles.column}>
+                  <View style={styles.titleBar}>
+                    <Text style={styles.font}>Name</Text>
+                  </View>
+                  {this.top100.map((currency,index) => (
+                    <View key={index}>
+                      <View style={[this.styleBackgroundColour(index)]}>
+                        <Text style={styles.font}>{currency.name}</Text>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+                <View style={styles.column}>
+                  <View style={styles.titleBar}>
+                    <Text style={styles.font}>Price (USD)</Text>
+                  </View>
+                  {this.top100.map((currency,index) => (
+                    <View key={index}>
+                      <View style={[this.styleBackgroundColour(index)]}>
+                        <Text style={styles.font}>$ {parseFloat(currency.price_usd).toFixed(2)}</Text>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+                <View style={styles.column}>
+                  <View style={styles.titleBar}>
+                    <Text style={styles.font}>Price (BTC)</Text>
+                  </View>
+                  {this.top100.map((currency,index) => (
+                    <View key={index}>
+                      <View style={[this.styleBackgroundColour(index)]}>
+                        <Text style={styles.font}>฿ {currency.price_btc}</Text>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
+            </View>
           </ScrollView>
+        }
       </View>
     );
   }
@@ -123,6 +194,25 @@ class Top100 extends React.Component {
 
 //Styles
 const styles = StyleSheet.create({
+  font: {
+    fontSize: 20,
+    color: 'white',
+    margin: 5,
+  },
+  titleBar: {
+    alignItems: 'center',
+    borderRightColor: 'black',
+    borderRightWidth: 2,
+    backgroundColor: 'grey'
+  },
+  column: {
+    flexDirection: 'column',
+  },
+  loading: {
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+  },
 });
 
 export default Top100;

@@ -3,16 +3,9 @@ import React from 'react';
 import { 
   StyleSheet, 
   Text, 
-  View, 
-  StatusBar, 
-  Platform, 
+  View,  
   Image, 
-  Dimensions, 
-  Button, 
-  TouchableHighlight, 
-  ToastAndroid, 
-  BackHandler,
-  TouchableWithoutFeedback,
+  Dimensions,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';

@@ -3,21 +3,15 @@ import {
   StyleSheet, 
   Text, 
   View, 
-  StatusBar, 
-  Platform, 
   Image, 
-  Dimensions, 
-  Button, 
-  TouchableHighlight, 
-  ToastAndroid, 
-  BackHandler,
-  TouchableWithoutFeedback,
+  Dimensions,
+  ToastAndroid,
   TouchableOpacity,
   ScrollView,
   AsyncStorage,
   NetInfo,
-  TouchableNativeFeedback,
   RefreshControl,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -101,8 +95,6 @@ class HomeScreen extends React.Component {
             this.menuRetrieve = retrieveStr;
             if(!(this.state.loaded))
               this.setState({loaded: true});
-            //else
-              //ToastAndroid.show('No Internet', ToastAndroid.SHORT);
             return;
           }
         })
@@ -112,11 +104,7 @@ class HomeScreen extends React.Component {
           if(!(this.state.loaded))
           {
             this.setState({loaded: true});
-          //  if(refreshOnOpen)
-          //    ToastAndroid.show('Already Up to Date', ToastAndroid.SHORT);
           }
-        //else
-         //   ToastAndroid.show('Already Up to Date', ToastAndroid.SHORT);
           return;
         }
         //If refreshOnOpen is turned off and not yet loaded then load in what we already have.
@@ -128,7 +116,6 @@ class HomeScreen extends React.Component {
         }
       }
       //If no local or last update time is greater than 5 min then update
-      //ToastAndroid.show('Updating...', ToastAndroid.SHORT);
       fetch('https://api.coinmarketcap.com/v1/ticker/',{
         method: 'GET'
       })
@@ -506,6 +493,7 @@ const styles = StyleSheet.create({
   cardText: {
     color: 'white',
     fontSize: 15,
+    marginBottom: 3,
   },
   changeIndicator: {
     width:45,

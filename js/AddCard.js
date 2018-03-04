@@ -3,19 +3,11 @@ import {
   StyleSheet, 
   Text, 
   View, 
-  StatusBar, 
-  Platform, 
   Image, 
   Dimensions, 
-  Button, 
-  TouchableHighlight, 
   ToastAndroid, 
-  BackHandler,
-  TouchableWithoutFeedback,
   TouchableOpacity,
-  ScrollView,
   AsyncStorage,
-  NetInfo,
   TextInput,
   FlatList,
 } from 'react-native';
@@ -110,7 +102,11 @@ class AddCard extends React.Component {
       <View style={CommonStyles.container}>
         <View style={CommonStyles.topBar}>{/*Top Bar*/}
           <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
-            <Image source={require('../assets/cancelIcon.png')} style={CommonStyles.backIcon}/>
+            {params.passThrough ? (
+              <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
+              ) : (  
+              <Image source={require('../assets/cancelIcon.png')} style={CommonStyles.backIcon}/>
+            )}
           </TouchableOpacity>
           {params.passThrough ? (
             <Text style={CommonStyles.title}>Search</Text>
