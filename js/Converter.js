@@ -258,7 +258,13 @@ class Converter extends React.Component {
         </View>{/*Below are search windows. Possibly make better by making one then taking values from array. Lazy tho.*/}
         {this.state.searchTop &&
           <View style={styles.searchWindow}>
-            <View style={{backgroundColor: 'white'}}>
+            <View style={{backgroundColor: 'white', flexDirection: 'row-reverse'}}>
+              <TouchableOpacity style={{ justifyContent: 'center'}} onPress={() => {                
+                this.handleSearch('', 'searchListTop');
+                this.setState({search: ''});
+              }}>
+                <Image source={require('../assets/clearSearchIcon.png')} style={styles.clearSearch}/>
+              </TouchableOpacity>
               <TextInput
                 placeholder={'Search...'}
                 style={styles.searchTextInput}
@@ -293,7 +299,13 @@ class Converter extends React.Component {
         }
         {this.state.searchBottom &&
           <View style={styles.searchWindow}>
-            <View style={{backgroundColor: 'white'}}>
+            <View style={{backgroundColor: 'white', flexDirection: 'row-reverse'}}>
+              <TouchableOpacity style={{ justifyContent: 'center'}} onPress={() => {                
+                this.handleSearch('', 'searchListBottom');
+                this.setState({search: ''});
+              }}>
+                <Image source={require('../assets/clearSearchIcon.png')} style={styles.clearSearch}/>
+              </TouchableOpacity>
               <TextInput
                 placeholder={'Search...'}
                 style={styles.searchTextInput}
@@ -339,6 +351,7 @@ const styles = StyleSheet.create({
   searchTextInput: {
     marginLeft: 10, 
     marginRight: 10,
+    flex: 1,
   },
   searchTiles: {
     marginRight: 10,
@@ -417,6 +430,11 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginBottom: 35,
+  },
+  clearSearch: {
+    width: 25, 
+    height: 25,
+    marginRight: 5,
   },
 });
 

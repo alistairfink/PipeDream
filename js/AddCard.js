@@ -112,6 +112,12 @@ class AddCard extends React.Component {
           )}
         </View>
         <View style={styles.searchBar}>{/*Search Bar*/}
+          <TouchableOpacity style={{ justifyContent: 'center'}} onPress={() => {
+            this.handleSearch('');
+            this.setState({search: ''});
+          }}>
+            <Image source={require('../assets/clearSearchIcon.png')} style={styles.clearSearch}/>
+          </TouchableOpacity>
           <TextInput
             placeholder={'Search...'}
             style={styles.searchTextInput}
@@ -154,10 +160,12 @@ class AddCard extends React.Component {
 const styles = StyleSheet.create({
   searchBar: {
     backgroundColor: 'white',
+    flexDirection: 'row-reverse'  
   },
   searchTextInput: {
     marginLeft: 10, 
     marginRight: 10,
+    flex: 1,
   },
   searchTiles: {
     marginRight: 10,
@@ -173,7 +181,11 @@ const styles = StyleSheet.create({
     marginTop: 10, 
     marginBottom: 10,
   },
-
+  clearSearch: {
+    width: 25, 
+    height: 25,
+    marginRight: 5,
+  },
 });
 
 export default AddCard;
