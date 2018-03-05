@@ -12,21 +12,22 @@ export default StyleSheet.create({
   },
   topBar: {
     width: win.width,
-    height: 40,
+    height: 50,
     backgroundColor: 'green',
     flexDirection: 'row', 
   },
   backIcon: {
-    height:27,
-    width:27,
+    height:32,
+    width:32,
     marginLeft: 7,
-    marginTop: 7,
+    marginTop: 10,
     marginRight: 7,
   },
   title: {
     fontSize: 30, 
     marginLeft: 5,
     color: 'white', 
+    alignSelf: 'center', 
   },
   topBarRight: {
     flex: 1, 
@@ -34,10 +35,10 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   menuIcon: {
-    height:27,
-    width:27,
-    marginLeft: 12,
-    marginTop: 7,
+    height:32,
+    width:32,
+    marginLeft: 7,
+    marginTop: 10,
     marginRight: 7,
   },
   topBarRigthInner:{

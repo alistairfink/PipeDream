@@ -13,6 +13,7 @@ import {
   Switch,
   AsyncStorage,
   TextInput,
+  Linking,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -32,7 +33,7 @@ const settings = {
     storageName: 'RefreshOnOpen',
   },
   menuEntires: {
-    displayText: 'Change Number of Top Cryptos Shown in Side Menu',
+    displayText: 'Number of Top Cryptos Shown in Side Menu',
     optionType: 'number', 
     options: {
       min: 1,
@@ -181,6 +182,16 @@ class Settings extends React.Component {
               />
             </View>
           ))}
+          <View style={styles.creditBox}>
+            <View style={styles.creditTitleBox}>
+              <Text style={styles.creditsTitle}>Credits</Text>
+            </View>
+            <Text style={styles.creditsText}>This app makes use of the following two free APIs.</Text>
+            <Text style={[styles.creditsText, styles.hyperlink]} onPress={()=>Linking.openURL('https://coinmarketcap.com/api/')}>CoinMarketCap</Text>
+            <Text style={[styles.creditsText, {marginLeft: 20, marginRight: 20,}]}>This API is used to gather all of the data displayed within this app.</Text>
+            <Text style={[styles.creditsText, styles.hyperlink]} onPress={()=>Linking.openURL('https://chasing-coins.com/api/')}>Chasing Coins</Text>
+            <Text style={[styles.creditsText, {marginLeft: 20, marginRight: 20,marginBottom: 20}]}>This API is used to pull the logos for each coin.</Text>
+          </View>
         </ScrollView>
         <View style={styles.footer}>
           <TouchableOpacity style={styles.footerButton} onPress={() => {
@@ -201,7 +212,7 @@ class Settings extends React.Component {
 const styles = StyleSheet.create({
   footer:{
     flexDirection: 'row', 
-    height: 40, 
+    height: 50, 
     backgroundColor: 'green',
   },
   footerText: {
@@ -235,6 +246,32 @@ const styles = StyleSheet.create({
   },
   settingButton: {
     margin: 15, 
+  },
+  creditBox: {
+    backgroundColor: 'green',
+    margin: 15,
+    borderRadius: 5,
+  },
+  creditTitleBox: {
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    backgroundColor: 'darkgreen',
+  },
+  creditsTitle:{
+    alignSelf: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 30,  
+    marginTop: 3,
+  },
+  creditsText: {
+    color: 'white',
+    fontSize: 16,
+    margin: 5,
+  },
+  hyperlink: {
+    color: 'blue',
+    fontSize: 18,
   },
 });
 
