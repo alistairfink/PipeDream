@@ -135,8 +135,8 @@ class Converter extends React.Component {
                   keyboardType={'numeric'}
                   style={{color: 'white'}}
                   value={""+this.state.topCryptoVal}
-                  style={styles.font}
-                  underlineColorAndroid="transparent"
+                  style={[styles.font, {textAlign: 'center'}]}
+                  underlineColorAndroid="black"
                   onChangeText={(value) =>{
                     //value = parseFloat(value);
                     if(!(isNaN(value)) && value!=="")
@@ -199,8 +199,8 @@ class Converter extends React.Component {
                 <TextInput 
                   keyboardType={'numeric'}
                   value={""+this.state.bottomCryptoVal}
-                  style={styles.font}
-                  underlineColorAndroid="transparent"
+                  style={[styles.font, {textAlign: 'center'}]}
+                  underlineColorAndroid="black"
                   onChangeText={(value) =>{
                     //value = parseFloat(value);
                     if(!(isNaN(value)) && value!=="")
