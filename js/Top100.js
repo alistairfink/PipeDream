@@ -100,6 +100,13 @@ class Top100 extends React.Component {
       borderRightWidth: 2,
     }
   }
+  percentColour(percentage){
+    let colour = null;
+    colour = percentage > 0 ? 'green' : percentage < 0 ? 'red' : 'white';
+    return {
+      color: colour,
+    }
+  }
   render() {
     return (
       <View style={CommonStyles.container}>
@@ -179,6 +186,18 @@ class Top100 extends React.Component {
                     <View key={index}>
                       <View style={[this.styleBackgroundColour(index)]}>
                         <Text style={styles.font}>฿ {currency.price_btc}</Text>
+                      </View>
+                    </View>
+                  ))}
+                </View>
+                <View style={styles.column}>
+                  <View style={styles.titleBar}>
+                    <Text style={styles.font}>24 Hours</Text>
+                  </View>
+                  {this.top100.map((currency,index) => (
+                    <View key={index}>
+                      <View style={[this.styleBackgroundColour(index)]}>
+                        <Text style={[styles.font, this.percentColour(currency.percent_change_24h)]}>{currency.percent_change_24h} %</Text>
                       </View>
                     </View>
                   ))}

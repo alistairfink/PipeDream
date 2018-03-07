@@ -273,6 +273,7 @@ class HomeScreen extends React.Component {
         styles={drawerStyles}
         negotiatePan={true}
         ref={(ref) => this.menuDrawer = ref}
+        panOpenMask={5}
         content={
           <View style={styles.menuBackColourGreen}>
             <View style={styles.menuBackColourBlack}>
