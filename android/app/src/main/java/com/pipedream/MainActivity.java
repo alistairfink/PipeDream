@@ -1,4 +1,4 @@
-package com.pipedream;
+package com.alistairfink.pipedream;
 
 import com.facebook.react.ReactActivity;
 

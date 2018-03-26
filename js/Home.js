@@ -262,6 +262,7 @@ class HomeScreen extends React.Component {
     this.setState({refreshing: true});
     await this.updateCards();
     this.setState({refreshing: false});
+    await this.getTopTen();
   }
   render() {
     return (

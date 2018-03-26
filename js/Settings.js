@@ -22,6 +22,7 @@ import {
 } from 'react-navigation';
 
 import CommonStyles from './CommonStyles';
+import Globals from './Globals';
 
 const win = Dimensions.get('window');//Viewport
 //Settings Object. All Settings go here and will get generated in render.
@@ -57,6 +58,7 @@ class Settings extends React.Component {
       refreshOnOpen: true,
       menuEntries: 10,
     };
+    this.settingsObject = null;
   }
   async save() {
     //Loops through settings object and uses stateName and storageName to save to local device.
@@ -85,6 +87,12 @@ class Settings extends React.Component {
         this.setState({[settings[compo].stateName]: retrieveState.setting});
       }
     }
+    let retrieveSavedSettings = await AsyncStorage.getItem(Globals.StorageNames.settings);
+    if(retrieveSavedSettings)
+      this.settingsObject = JSON.parse(retrieveSavedSettings);
+    else 
+      this.settingsObject = Globals.DefaultSettings;
+    alert(JSON.stringify(this.settingsObject));
   }
   componentWillMount() {
     this.initLoad();
