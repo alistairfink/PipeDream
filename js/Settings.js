@@ -20,6 +20,7 @@ import {
   StackNavigator,
   TabNavigator,
 } from 'react-navigation';
+import { Dropdown } from 'react-native-material-dropdown';
 
 import CommonStyles from './CommonStyles';
 import Globals from './Globals';
@@ -50,6 +51,49 @@ const buttons = {
     functionCall: 'checkMasterList',
   },
 }
+const fiatData = [
+  {value:'AUD'},
+  {value:'BRL'},
+  {value:'CAD'},
+  {value:'CHF'},
+  {value:'CLP'},
+  {value:'CNY'},
+  {value:'CZK'},
+  {value:'DKK'},
+  {value:'EUR'},
+  {value:'GBP'},
+  {value:'HKD'},
+  {value:'HUF'},
+  {value:'IDR'},
+  {value:'ILS'},
+  {value:'INR'},
+  {value:'JPY'},
+  {value:'KRW'},
+  {value:'MXN'},
+  {value:'MYR'},
+  {value:'NOK'},
+  {value:'NZD'},
+  {value:'PHP'},
+  {value:'PKR'},
+  {value:'PLN'},
+  {value:'RUB'},
+  {value:'SEK'},
+  {value:'SGD'},
+  {value:'THB'},
+  {value:'TRY'},
+  {value:'TWD'},
+  {value:'USD'},
+  {value:'ZAR'},
+];
+var themeData = [
+  {value:'Light'},
+  {value:'Dark'},
+  {value:'Blue'},
+  {value:'Red'},
+  {value:'Green'},
+  {value:'Orange'},
+  {value:'Purple'},
+];
 
 class Settings extends React.Component {
   constructor(props){
@@ -59,6 +103,8 @@ class Settings extends React.Component {
       menuEntries: 10,
     };
     this.settingsObject = null;
+    this.changeTheme = this.changeTheme.bind(this);
+    this.changeFiat = this.changeFiat.bind(this);
   }
   async save() {
     //Loops through settings object and uses stateName and storageName to save to local device.
@@ -71,6 +117,8 @@ class Settings extends React.Component {
       settingToSave = JSON.stringify(settingToSave);//Stringify to prepare for AsyncStorage(Only accepts strings and object makes it easier)
       await AsyncStorage.setItem(settings[compo].storageName, settingToSave);
     }
+    Globals.UpdateSettings(this.settingsObject);
+    await AsyncStorage.setItem(Globals.StorageNames.settings, JSON.stringify(this.settingsObject));
     this.props.navigation.state.params.onGoBack('list');//Refresh list on save settings
     //this.props.navigation.state.params.onGoBack('list');//Refresh list on save settings
     this.props.navigation.goBack();
@@ -87,12 +135,12 @@ class Settings extends React.Component {
         this.setState({[settings[compo].stateName]: retrieveState.setting});
       }
     }
+    //Loads in saved settings and if they exist uses that object else uses default.
     let retrieveSavedSettings = await AsyncStorage.getItem(Globals.StorageNames.settings);
     if(retrieveSavedSettings)
       this.settingsObject = JSON.parse(retrieveSavedSettings);
     else 
       this.settingsObject = Globals.DefaultSettings;
-    alert(JSON.stringify(this.settingsObject));
   }
   componentWillMount() {
     this.initLoad();
@@ -122,6 +170,82 @@ class Settings extends React.Component {
     {//If can't load the log error.
       console.log(error);
     }
+  }
+  changeTheme(text) {
+    switch(text) {
+      case "Blue":
+        this.settingsObject.theme = {
+          name: 'Blue',
+          primaryColour: '#0d47a1',
+          lightColour: '#5472d3',
+          darkColour: '#002171',
+          backgroundColour: 'black',
+          textColour: 'white',
+        }
+        break;
+      case "Red":
+        this.settingsObject.theme = {
+          name: 'Red',
+          primaryColour: '#b71c1c',
+          lightColour: '#f05545',
+          darkColour: '#7f0000',
+          backgroundColour: 'black',
+          textColour: 'white',
+        }
+        break;
+      case "Green":
+        this.settingsObject.theme = {
+          name: 'Green',
+          primaryColour: '#1b5e20',
+          lightColour: '#4c8c4a',
+          darkColour: '#003300',
+          backgroundColour: 'black',
+          textColour: 'white',
+        }
+        break;
+      case "Dark":
+        this.settingsObject.theme = {
+          name: 'Dark',
+          primaryColour: '#212121',
+          lightColour: '#484848',
+          darkColour: '#000000',
+          backgroundColour: 'black',
+          textColour: 'white',
+        }
+        break;
+      case "Orange":
+        this.settingsObject.theme = {
+          name: 'Orange',
+          primaryColour: '#e65100',
+          lightColour: '#ff833a',
+          darkColour: '#ac1900',
+          backgroundColour: 'black',
+          textColour: 'white',
+        }
+        break;
+      case "Purple":
+        this.settingsObject.theme = {
+          name: 'Purple',
+          primaryColour: '#4a148c',
+          lightColour: '#7c43bd',
+          darkColour: '#12005e',
+          backgroundColour: 'black',
+          textColour: 'white',
+        }
+        break;
+      default:
+        this.settingsObject.theme = {
+          name: 'Light',
+          primaryColour: '#e0e0e0',
+          lightColour: '#ffffff',
+          darkColour: '#aeaeae',
+          backgroundColour: 'white',
+          textColour: 'black',
+        }
+    }
+  }
+  changeFiat(text) {
+    this.settingsObject.currency = text;
   }
   render() {
     return (
@@ -173,6 +297,26 @@ class Settings extends React.Component {
               <View style={styles.menuLine}></View>
             </View>
           ))}
+          <View style={styles.dropDownOuter}>
+            <View style={styles.dropDownInner}>
+              <Dropdown
+                label='Theme'
+                data={themeData}
+                onChangeText={this.changeTheme}
+              />
+            </View>
+          </View>
+          <View style={styles.menuLine}></View>
+          <View style={styles.dropDownOuter}>
+            <View style={styles.dropDownInner}>
+              <Dropdown
+                label='Fiat Currency'
+                data={fiatData}
+                onChangeText={this.changeFiat}
+              />
+            </View>
+          </View>
+          <View style={styles.menuLine}></View>
           {Object.keys(buttons).map((button: string) => (
             <View key={button} style={styles.settingButton}>
               <Button 
@@ -280,6 +424,15 @@ const styles = StyleSheet.create({
   hyperlink: {
     color: 'blue',
     fontSize: 18,
+  },
+  dropDownOuter: {
+    backgroundColor: 'white', 
+    margin: 15, 
+    borderRadius: 5,
+  },
+  dropDownInner: {
+    marginLeft: 15,
+    marginRight: 15,
   },
 });
 
