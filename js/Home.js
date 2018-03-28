@@ -12,6 +12,7 @@ import {
   NetInfo,
   RefreshControl,
   TouchableWithoutFeedback,
+  StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -20,6 +21,7 @@ import {
 } from 'react-navigation';
 
 import CommonStyles from './CommonStyles';
+import Globals from './Globals';
 
 const win = Dimensions.get('window');//Viewport
 const menuItems = {//Static menu items
@@ -79,7 +81,7 @@ class HomeScreen extends React.Component {
       refreshOnOpen = JSON.parse(refreshOnOpen);
       refreshOnOpen = refreshOnOpen ? refreshOnOpen.setting : true;
       //^^Read in settings
-      if(retrieveStr){//If something was retrieved
+      if(retrieveStr && !(this.state.refreshNow)){//If something was retrieved
         retrieveStr = JSON.parse(retrieveStr);//Parse string
         retrieveStr = retrieveStr.slice(0, menuEntries);
         let curDate = new Date();
@@ -116,7 +118,7 @@ class HomeScreen extends React.Component {
         }
       }
       //If no local or last update time is greater than 5 min then update
-      fetch('https://api.coinmarketcap.com/v1/ticker/',{
+      fetch('https://api.coinmarketcap.com/v1/ticker/?convert='+Globals.DefaultSettings.currency,{
         method: 'GET'
       })
       .then( (response) => response.json()) //Convert response to JSON
@@ -141,6 +143,10 @@ class HomeScreen extends React.Component {
     else if(refreshOption === 'mainView')
     {
       await this.updateCards();
+    }
+    else if (refreshOption === 'all')
+    {
+      await this.refreshAll();
     }
     this.setState({refreshNow: false});
   }
@@ -227,7 +233,7 @@ class HomeScreen extends React.Component {
           ToastAndroid.show('Updating...', ToastAndroid.SHORT);
         for(let i = 0; i < retrieveCardList.length; i++)
         {
-          await fetch('https://api.coinmarketcap.com/v1/ticker/'+retrieveCardList[i].id,{
+          await fetch('https://api.coinmarketcap.com/v1/ticker/'+retrieveCardList[i].id+'?convert='+Globals.DefaultSettings.currency,{
             method: 'GET'
           })
           .then( (response) => response.json()) //Convert response to JSON
@@ -278,9 +284,9 @@ class HomeScreen extends React.Component {
         content={
           <View style={styles.menuBackColourGreen}>
             <View style={styles.menuBackColourBlack}>
-              <ScrollView style={styles.menu} overScrollMode="never" showsVerticalScrollIndicator={false} ref='_menuScroll'>{/*Side bar menu*/}
-                <View style={styles.menuTitleBox}>
-                  <Text style={[styles.menuItem, styles.menuTitle]} >Menu</Text>
+              <ScrollView style={[styles.menu, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]} overScrollMode="never" showsVerticalScrollIndicator={false} ref='_menuScroll'>{/*Side bar menu*/}
+                <View style={[styles.menuTitleBox, {backgroundColor: Globals.DefaultSettings.theme.darkColour}]}>
+                  <Text style={[styles.menuItem, styles.menuTitle, {color: Globals.DefaultSettings.theme.textColour}]}>Menu</Text>
                 </View>
                 {Object.keys(menuItems).map((name: string) => (
                   <View key={name}>{/*Menu Items*/}
@@ -293,7 +299,7 @@ class HomeScreen extends React.Component {
                         this.closeControlPanel(); 
                       }} 
                     >
-                      <Text style={styles.menuItem}>{menuItems[name].display}</Text>
+                      <Text style={[styles.menuItem, {color: Globals.DefaultSettings.theme.textColour}]}>{menuItems[name].display}</Text>
                     </TouchableOpacity>
                     {name != "Settings" &&
                       <View style={styles.menuLine}></View>
@@ -305,8 +311,8 @@ class HomeScreen extends React.Component {
                 }{/*Until items get from api then load. THIS SHOULD ONLY EVER HAPPEN ONCE*/}
                 {this.state.loaded &&
                   <View>
-                    <View style={styles.menuTitleBox}>
-                      <Text style={[styles.menuItem, styles.menuTitle]} >Top {this.menuRetrieve.length}</Text>
+                    <View style={[styles.menuTitleBox, {backgroundColor: Globals.DefaultSettings.theme.darkColour}]}>
+                      <Text style={[styles.menuItem, styles.menuTitle, {color: Globals.DefaultSettings.theme.textColour}]} >Top {this.menuRetrieve.length}</Text>
                     </View>
                     {this.menuRetrieve.map(currency => (
                       <View key={currency.rank}>{/*After top X gets from api then display*/}
@@ -316,7 +322,7 @@ class HomeScreen extends React.Component {
                               this.closeControlPanel();
                             }} 
                           >
-                            <Text style={styles.menuItem} >{currency.rank}. {currency.name}</Text>
+                            <Text style={[styles.menuItem, {color: Globals.DefaultSettings.theme.textColour}]} >{currency.rank}. {currency.name}</Text>
                           </TouchableOpacity>
                           <View style={styles.menuLine}></View>
                       </View>
@@ -329,22 +335,25 @@ class HomeScreen extends React.Component {
         }
         >
           <View style={CommonStyles.container}>{/*Regular home view*/}
-            <View style={CommonStyles.topBar}>
+            <View style={[CommonStyles.topBar, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>
+              <StatusBar
+                backgroundColor={Globals.DefaultSettings.theme.darkColour}
+              />
               <TouchableWithoutFeedback onPress={() => {this.openControlPanel()}}>
-                <Image source={require('../assets/menuIcon.png')} style={CommonStyles.menuIcon}/>
+                <Image source={require('../assets/menuIcon.png')} style={[CommonStyles.menuIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
               </TouchableWithoutFeedback>{/*Top Bar*/}
-              <Text style={CommonStyles.title}>PipeDream</Text>
+              <Text style={[CommonStyles.title, {color: Globals.DefaultSettings.theme.textColour}]}>PipeDream</Text>
               <View style={CommonStyles.topBarRight}>
                 <View style={CommonStyles.topBarRigthInner}>
                   <TouchableOpacity onPress={() => {this.refreshAll()}}>
-                    <Image source={require('../assets/refreshIcon.png')} style={CommonStyles.menuIcon}/>
+                    <Image source={require('../assets/refreshIcon.png')} style={[CommonStyles.menuIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => {
                     this.props.navigation.navigate('AddCard',{
                       onGoBack: (refreshOption, optionalObj) => this.onGoBack(refreshOption, optionalObj),
                     });//Callback function to refresh this view
                   }}>
-                    <Image source={require('../assets/addIcon.png')} style={CommonStyles.menuIcon}/>
+                    <Image source={require('../assets/addIcon.png')} style={[CommonStyles.menuIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -362,35 +371,35 @@ class HomeScreen extends React.Component {
               {this.state.loadedMain &&
                 <View>
                   {this.state.cardData.map((currency,index) => (
-                    <View key={currency.id} style={styles.cardOuter}>
-                      <View style={styles.cardTop}>{/*Top Card title with X*/}
+                    <View key={currency.id} style={[styles.cardOuter, {backgroundColor: Globals.DefaultSettings.theme.lightColour}]}>
+                      <View style={[styles.cardTop, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>{/*Top Card title with X*/}
                         <TouchableOpacity 
                         onPress={() => {
                           this.props.navigation.navigate('OneCrpyto',currency);
                           this.closeControlPanel();
                         }}>
-                          <Text style={styles.cardTitle}>{currency.name} ({currency.symbol})</Text>
+                          <Text style={[styles.cardTitle, {color: Globals.DefaultSettings.theme.textColour}]}>{currency.name} ({currency.symbol})</Text>
                         </TouchableOpacity>
                         <View style={{flex: 1, alignItems: 'flex-end'}}>
                           <TouchableOpacity onPress={() => {
                               this.deleteCard(index);
                             }}
                           >
-                            <Image source={require('../assets/cancelIcon.png')} style={styles.xIcon}/>
+                            <Image source={require('../assets/cancelIcon.png')} style={[styles.xIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
                           </TouchableOpacity>
                         </View>
                       </View>
                       <View style={{flexDirection: 'row', margin: 10}}>{/*Prices and Rank*/}
                         <View style={{flexDirection: 'column'}}>
-                          <Text style={styles.cardText}>Rank: # {currency.rank}</Text>
-                          <Text style={styles.cardText}>Price(USD): $ {parseFloat(currency.price_usd).toFixed(2)}</Text>
-                          <Text style={styles.cardText}>Price(BTC): ฿ {currency.price_btc}</Text>
+                          <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>Rank: # {currency.rank}</Text>
+                          <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>Price({Globals.DefaultSettings.currency}): {Globals.DefaultSettings.symbol} {parseFloat((currency)['price_'+Globals.DefaultSettings.currency.toLowerCase()]).toFixed(2)}</Text>
+                          <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>Price(BTC): Ƀ {currency.price_btc}</Text>
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'flex-end', flex: 1}}>{/*Percentage Changes*/}
                           <View style={{flexDirection: 'column', alignItems: 'flex-end' , flex: 1}}>
-                            <Text style={styles.cardText}>1 Hour:{"  "}</Text>
-                            <Text style={styles.cardText}>24 Hours:{"  "}</Text>
-                            <Text style={styles.cardText}>7 Days:{"  "}</Text>
+                            <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>1 Hour:{"  "}</Text>
+                            <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>24 Hours:{"  "}</Text>
+                            <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>7 Days:{"  "}</Text>
                           </View>
                           <View style={{flexDirection: 'column', alignItems: 'flex-start' }}>
                              <Text style={styles.cardText}>
@@ -419,9 +428,9 @@ class HomeScreen extends React.Component {
                             {"  "}</Text>
                             </View>
                             <View style={{flexDirection: 'column', alignItems: 'flex-end' }}>
-                              <Text style={styles.cardText}>{currency.percent_change_1h} %</Text>
-                              <Text style={styles.cardText}>{currency.percent_change_24h} %</Text>
-                              <Text style={styles.cardText}>{currency.percent_change_7d} %</Text>
+                              <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>{currency.percent_change_1h} %</Text>
+                              <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>{currency.percent_change_24h} %</Text>
+                              <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>{currency.percent_change_7d} %</Text>
                             </View>
                         </View>
                       </View>
@@ -442,7 +451,6 @@ const styles = StyleSheet.create({
   menuItem: {
     fontSize: 25,
     margin: 10,
-    color: 'white',
   },
   menuLine: {
     borderBottomColor: 'lightslategrey', 
@@ -450,7 +458,6 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   menu: {
-    backgroundColor: 'green', 
     flex: 1,
     borderBottomRightRadius: 5,
   },
@@ -470,11 +477,9 @@ const styles = StyleSheet.create({
     margin: 15,
     marginBottom: 0,
     borderRadius: 5,
-    backgroundColor: 'green'
   },
   cardTop: {
     flexDirection: 'row',
-    backgroundColor: 'darkgreen',
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     alignItems: 'center',
@@ -488,12 +493,10 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     textAlignVertical: 'center',
-    color: 'white',
     marginLeft: 10,
     fontSize: 20,
   },
   cardText: {
-    color: 'white',
     fontSize: 15,
     marginBottom: 3,
   },
@@ -503,7 +506,6 @@ const styles = StyleSheet.create({
   },
   menuTitleBox: {
     flex: 1, 
-    backgroundColor: 'darkgreen',
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     marginRight: 5,

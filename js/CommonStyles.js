@@ -13,7 +13,6 @@ export default StyleSheet.create({
   topBar: {
     width: win.width,
     height: 50,
-    backgroundColor: 'green',
     flexDirection: 'row', 
   },
   backIcon: {
@@ -26,8 +25,8 @@ export default StyleSheet.create({
   title: {
     fontSize: 30, 
     marginLeft: 5,
-    color: 'white', 
-    alignSelf: 'center', 
+    alignSelf: 'center',
+    fontWeight: 'bold', 
   },
   topBarRight: {
     flex: 1, 

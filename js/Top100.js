@@ -11,6 +11,7 @@ import {
   ScrollView,
   AsyncStorage,
   NetInfo,
+  StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -19,6 +20,7 @@ import {
 } from 'react-navigation';
 
 import CommonStyles from './CommonStyles';
+import Globals from './Globals';
 
 const win = Dimensions.get('window');//Viewport
 
@@ -110,14 +112,17 @@ class Top100 extends React.Component {
   render() {
     return (
       <View style={CommonStyles.container}>
-        <View style={CommonStyles.topBar}>{/*Top Bar*/}
+        <View style={[CommonStyles.topBar, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>{/*Top Bar*/}
+          <StatusBar
+            backgroundColor={Globals.DefaultSettings.theme.darkColour}
+          />
           <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
-            <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
+            <Image source={require('../assets/backIcon.png')} style={[CommonStyles.backIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
           </TouchableOpacity>
-          <Text style={CommonStyles.title}>Top 100 Cryptos</Text>{/*Top Bar*/}
+          <Text style={[CommonStyles.title, {color: Globals.DefaultSettings.theme.textColour}]}>Top 100 Cryptos</Text>{/*Top Bar*/}
           <View style={CommonStyles.topBarRight}>
             <TouchableOpacity onPress={() => {this.top100Pull()}}>
-              <Image source={require('../assets/refreshIcon.png')} style={CommonStyles.menuIcon}/>
+              <Image source={require('../assets/refreshIcon.png')} style={[CommonStyles.menuIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
             </TouchableOpacity>
           </View>
         </View>
@@ -168,12 +173,12 @@ class Top100 extends React.Component {
                 </View>
                 <View style={styles.column}>
                   <View style={styles.titleBar}>
-                    <Text style={styles.font}>Price (USD)</Text>
+                    <Text style={styles.font}>Price ({Globals.DefaultSettings.currency})</Text>
                   </View>
                   {this.top100.map((currency,index) => (
                     <View key={index}>
                       <View style={[this.styleBackgroundColour(index)]}>
-                        <Text style={styles.font}>$ {parseFloat(currency.price_usd).toFixed(2)}</Text>
+                        <Text style={styles.font}>{Globals.DefaultSettings.symbol} {parseFloat(currency['price_'+Globals.DefaultSettings.currency.toLowerCase()]).toFixed(2)}</Text>
                       </View>
                     </View>
                   ))}
@@ -185,7 +190,7 @@ class Top100 extends React.Component {
                   {this.top100.map((currency,index) => (
                     <View key={index}>
                       <View style={[this.styleBackgroundColour(index)]}>
-                        <Text style={styles.font}>฿ {currency.price_btc}</Text>
+                        <Text style={styles.font}>Ƀ {currency.price_btc}</Text>
                       </View>
                     </View>
                   ))}

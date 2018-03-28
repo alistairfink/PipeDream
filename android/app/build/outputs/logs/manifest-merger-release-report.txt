@@ -2,7 +2,7 @@
 manifest
 ADDED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml:1:1-36:12
 	package
-		ADDED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml:3:5-28
+		ADDED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml:3:5-41
 		INJECTED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml
 		INJECTED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml
 	android:versionName
@@ -74,7 +74,7 @@ MERGED from [org.webkit:android-jsc:r174650] E:\AppDev\Github\PipeDream\android\
 		ADDED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml:21:7-38
 	android:name
 		ADDED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml:17:7-38
-activity#com.pipedream.MainActivity
+activity#com.alistairfink.pipedream.MainActivity
 ADDED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml:22:7-32:18
 	android:screenOrientation
 		ADDED from E:\AppDev\Github\PipeDream\android\app\src\main\AndroidManifest.xml:26:9-45

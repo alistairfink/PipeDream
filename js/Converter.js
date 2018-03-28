@@ -11,6 +11,7 @@ import {
   TextInput,
   FlatList,
   AsyncStorage,
+  StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -19,6 +20,7 @@ import {
 } from 'react-navigation';
 
 import CommonStyles from './CommonStyles';
+import Globals from './Globals';
 
 const win = Dimensions.get('window');//Viewport
 
@@ -89,7 +91,7 @@ class Converter extends React.Component {
       {
         this.setState({searchBottom: false});
       }
-      await fetch('https://api.coinmarketcap.com/v1/ticker/'+crypto.id,{
+      await fetch('https://api.coinmarketcap.com/v1/ticker/'+crypto.id+'/?convert='+Globals.DefaultSettings.currency,{
               method: 'GET'
             })
             .then( (response) => response.json()) 
@@ -121,11 +123,14 @@ class Converter extends React.Component {
   render() {
     return (
       <View style={CommonStyles.container}>
-        <View style={CommonStyles.topBar}>{/*Top Bar*/}
+        <View style={[CommonStyles.topBar, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>{/*Top Bar*/}
+          <StatusBar
+            backgroundColor={Globals.DefaultSettings.theme.darkColour}
+          />
           <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
-            <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
+            <Image source={require('../assets/backIcon.png')} style={[CommonStyles.backIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
           </TouchableOpacity>
-          <Text style={CommonStyles.title}>Convert</Text>
+          <Text style={[CommonStyles.title, {color: Globals.DefaultSettings.theme.textColour}]}>Convert</Text>
         </View>
         <View style={[styles.topBottom, {backgroundColor: 'lightcoral', marginBottom: 5}]}>{/*Top Crypto*/}
           {this.state.topCrypto &&
@@ -177,7 +182,7 @@ class Converter extends React.Component {
                   <Text style={[styles.font, {fontWeight: 'bold'}]}>{this.state.topCrypto.name}</Text>
               </View>
               <View style={styles.currencyNormalConversion}>
-                <Text style={[styles.font, {fontSize: 22,}]}>${parseFloat(this.state.topCryptoVal*this.state.topCrypto.price_usd).toFixed(2)} USD</Text>
+                <Text style={[styles.font, {fontSize: 22,}]}>{Globals.DefaultSettings.symbol}{parseFloat(this.state.topCryptoVal*(this.state.topCrypto)['price_'+Globals.DefaultSettings.currency.toLowerCase()]).toFixed(2)} {Globals.DefaultSettings.currency}</Text>
               </View>
             </View>
           }
@@ -241,7 +246,7 @@ class Converter extends React.Component {
                   <Text style={[styles.font, {fontWeight: 'bold'}]}>{this.state.bottomCrypto.name}</Text>
               </View>
               <View style={styles.currencyNormalConversion}>
-                <Text style={[styles.font, {fontSize: 22,}]}>${parseFloat(this.state.bottomCryptoVal*this.state.bottomCrypto.price_usd).toFixed(2)} USD</Text>
+                <Text style={[styles.font, {fontSize: 22,}]}>{Globals.DefaultSettings.symbol}{parseFloat(this.state.bottomCryptoVal*(this.state.bottomCrypto)['price_'+Globals.DefaultSettings.currency.toLowerCase()]).toFixed(2)} {Globals.DefaultSettings.currency}</Text>
               </View>
             </View>
           } 
@@ -257,7 +262,7 @@ class Converter extends React.Component {
           </View>
         </View>{/*Below are search windows. Possibly make better by making one then taking values from array. Lazy tho.*/}
         {this.state.searchTop &&
-          <View style={styles.searchWindow}>
+          <View style={[styles.searchWindow, {borderColor: Globals.DefaultSettings.theme.darkColour}]}>
             <View style={{backgroundColor: 'white', flexDirection: 'row-reverse'}}>
               <TouchableOpacity style={{ justifyContent: 'center'}} onPress={() => {                
                 this.handleSearch('', 'searchListTop');
@@ -284,21 +289,21 @@ class Converter extends React.Component {
                     this.pickCrypt('topCrypto', item);
                   }} 
                 >
-                  <View style={styles.searchTiles}>
-                    <Text style={styles.searchTilesTitle}>{item.name}</Text>
+                  <View style={[styles.searchTiles, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>
+                    <Text style={[styles.searchTilesTitle, {color: Globals.DefaultSettings.theme.textColour}]}>{item.name}</Text>
                   </View>
                 </TouchableOpacity>
               )}
             />
-            <View style={styles.searchWindowChin}>
+            <View style={[styles.searchWindowChin, {backgroundColor: Globals.DefaultSettings.theme.darkColour}]}>
               <TouchableOpacity style={styles.searchWindowCancel} onPress={() => this.setState({searchTop: false})}>
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text style={{color: Globals.DefaultSettings.theme.textColour}}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>
         }
         {this.state.searchBottom &&
-          <View style={styles.searchWindow}>
+          <View style={[styles.searchWindow, {borderColor: Globals.DefaultSettings.theme.darkColour}]}>
             <View style={{backgroundColor: 'white', flexDirection: 'row-reverse'}}>
               <TouchableOpacity style={{ justifyContent: 'center'}} onPress={() => {                
                 this.handleSearch('', 'searchListBottom');
@@ -325,15 +330,15 @@ class Converter extends React.Component {
                     this.pickCrypt('bottomCrypto', item);
                   }} 
                 >
-                  <View style={styles.searchTiles}>
-                    <Text style={styles.searchTilesTitle}>{item.name}</Text>
+                  <View style={[styles.searchTiles, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>
+                    <Text style={[styles.searchTilesTitle, {color: Globals.DefaultSettings.theme.textColour}]}>{item.name}</Text>
                   </View>
                 </TouchableOpacity>
               )}
             />
-            <View style={styles.searchWindowChin}>
+            <View style={[styles.searchWindowChin, {backgroundColor: Globals.DefaultSettings.theme.darkColour}]}>
               <TouchableOpacity style={styles.searchWindowCancel} onPress={() => this.setState({searchBottom: false})}>
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text style={{color: Globals.DefaultSettings.theme.textColour}}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -357,13 +362,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10, 
     marginTop: 10, 
-    flex: 1, 
-    backgroundColor: 'green', 
+    flex: 1,  
     alignItems: 'center',
     borderRadius: 5,
   },
   searchTilesTitle: {
-    color: 'white', 
     marginTop: 10, 
     marginBottom: 10,
   },
@@ -375,19 +378,14 @@ const styles = StyleSheet.create({
     height: win.height-160, 
     backgroundColor: 'black', 
     borderWidth: 2, 
-    borderColor: 'green',
   },
   searchWindowChin: {
     height: 40, 
-    backgroundColor: 'darkgreen',
   },
   searchWindowCancel: {
     flex: 1,
     alignItems: 'center', 
     justifyContent: 'center',
-  },
-  cancelText: {
-    color: 'white',
   },
   addCurrOuter: {
     borderBottomLeftRadius: 5,

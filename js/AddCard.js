@@ -10,6 +10,7 @@ import {
   AsyncStorage,
   TextInput,
   FlatList,
+  StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -18,6 +19,7 @@ import {
 } from 'react-navigation';
 
 import CommonStyles from './CommonStyles';
+import Globals from './Globals';
 
 const win = Dimensions.get('window');//Viewport
 
@@ -100,18 +102,21 @@ class AddCard extends React.Component {
     const { params } = this.props.navigation.state;//Get params.
     return (
       <View style={CommonStyles.container}>
-        <View style={CommonStyles.topBar}>{/*Top Bar*/}
+        <View style={[CommonStyles.topBar, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>{/*Top Bar*/}
+          <StatusBar
+            backgroundColor={Globals.DefaultSettings.theme.darkColour}
+          />
           <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
             {params.passThrough ? (
-              <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
+              <Image source={require('../assets/backIcon.png')} style={[CommonStyles.backIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
               ) : (  
-              <Image source={require('../assets/cancelIcon.png')} style={CommonStyles.backIcon}/>
+              <Image source={require('../assets/cancelIcon.png')} style={[CommonStyles.backIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
             )}
           </TouchableOpacity>
           {params.passThrough ? (
-            <Text style={CommonStyles.title}>Search</Text>
+            <Text style={[CommonStyles.title, {color: Globals.DefaultSettings.theme.textColour}]}>Search</Text>
             ) : (  
-            <Text style={CommonStyles.title}>Add Card</Text>
+            <Text style={[CommonStyles.title, {color: Globals.DefaultSettings.theme.textColour}]}>Add Card</Text>
           )}
         </View>
         <View style={styles.searchBar}>{/*Search Bar*/}
@@ -148,8 +153,8 @@ class AddCard extends React.Component {
                   }
                 }} 
               >
-                <View style={styles.searchTiles}>
-                  <Text style={styles.searchTilesTitle}>{item.name}</Text>
+                <View style={[styles.searchTiles, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>
+                  <Text style={[styles.searchTilesTitle, {color: Globals.DefaultSettings.theme.textColour}]}>{item.name}</Text>
                 </View>
               </TouchableOpacity>
             )}

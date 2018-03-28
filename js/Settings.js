@@ -14,6 +14,7 @@ import {
   AsyncStorage,
   TextInput,
   Linking,
+  StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -86,7 +87,7 @@ const fiatData = [
   {value:'ZAR'},
 ];
 var themeData = [
-  {value:'Light'},
+  {value:'Black and White'},
   {value:'Dark'},
   {value:'Blue'},
   {value:'Red'},
@@ -119,7 +120,7 @@ class Settings extends React.Component {
     }
     Globals.UpdateSettings(this.settingsObject);
     await AsyncStorage.setItem(Globals.StorageNames.settings, JSON.stringify(this.settingsObject));
-    this.props.navigation.state.params.onGoBack('list');//Refresh list on save settings
+    this.props.navigation.state.params.onGoBack('all');//Refresh list on save settings
     //this.props.navigation.state.params.onGoBack('list');//Refresh list on save settings
     this.props.navigation.goBack();
   }
@@ -235,7 +236,7 @@ class Settings extends React.Component {
         break;
       default:
         this.settingsObject.theme = {
-          name: 'Light',
+          name: 'Black and White',
           primaryColour: '#e0e0e0',
           lightColour: '#ffffff',
           darkColour: '#aeaeae',
@@ -246,15 +247,85 @@ class Settings extends React.Component {
   }
   changeFiat(text) {
     this.settingsObject.currency = text;
+    switch(text){
+      case 'BRL':
+        this.settingsObject.symbol = 'R$';
+        break;
+      case 'CHF':
+        this.settingsObject.symbol = 'CHF';
+        break;
+      case 'CNY':
+      case 'JPY':
+        this.settingsObject.symbol = '¥';
+        break;
+      case 'CZK':
+        this.settingsObject.symbol = 'Kč';
+        break;
+      case 'DKK':
+        this.settingsObject.symbol = 'kr.';
+        break;
+      case 'EUR':
+        this.settingsObject.symbol = '€';
+        break;
+      case 'GBP':
+        this.settingsObject.symbol = '£';
+        break;
+      case 'HUF':
+        this.settingsObject.symbol = 'Ft';
+        break;
+      case 'IDR':
+        this.settingsObject.symbol = 'Rp';
+        break;
+      case 'ILS':
+        this.settingsObject.symbol = '₪';
+        break;
+      case 'INR':
+        this.settingsObject.symbol = '₹';
+        break;
+      case 'KRW':
+        this.settingsObject.symbol = '₩';
+        break;
+      case 'MYR':
+        this.settingsObject.symbol = 'RM';
+        break;
+      case 'NOK':
+      case 'SEK':
+      case 'TRY':
+        this.settingsObject.symbol = 'kr';
+        break;
+      case 'PHP':
+        this.settingsObject.symbol = '₱';
+        break;
+      case 'PKR':
+        this.settingsObject.symbol = '₨';
+        break;
+      case 'PLN':
+        this.settingsObject.symbol = 'zł';
+        break;
+      case 'RUB':
+        this.settingsObject.symbol = '₽';
+        break;
+      case 'THB':
+        this.settingsObject.symbol = '฿';
+        break;
+      case 'ZAR':
+        this.settingsObject.symbol = 'R';
+        break;
+      default:
+        this.settingsObject.symbol = '$';
+    }
   }
   render() {
     return (
 	    <View style={CommonStyles.container}>
-        <View style={CommonStyles.topBar}>{/*Top bar*/}
+        <View style={[CommonStyles.topBar, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>{/*Top bar*/}
+          <StatusBar
+            backgroundColor={Globals.DefaultSettings.theme.darkColour}
+          />
           <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
-            <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
+            <Image source={require('../assets/backIcon.png')} style={[CommonStyles.backIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
           </TouchableOpacity>
-          <Text style={CommonStyles.title}>Settings</Text>
+          <Text style={[CommonStyles.title, {color: Globals.DefaultSettings.theme.textColour}]}>Settings</Text>
         </View>
         <ScrollView>{/*Main View for Settings*/}
           {Object.keys(settings).map((setting: string) => (
@@ -321,7 +392,7 @@ class Settings extends React.Component {
             <View key={button} style={styles.settingButton}>
               <Button 
                 title={buttons[button].displayText}
-                color='green'
+                color={Globals.DefaultSettings.theme.primaryColour}
                 onPress={() => {
                   //Switch Case because I couldn't figure out how to do the function call since buttons is outside class
                   //Switch Case was most painless way to implement. Tho most painful to maintain.
@@ -334,25 +405,25 @@ class Settings extends React.Component {
               />
             </View>
           ))}
-          <View style={styles.creditBox}>
-            <View style={styles.creditTitleBox}>
-              <Text style={styles.creditsTitle}>Credits</Text>
+          <View style={[styles.creditBox, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>
+            <View style={[styles.creditTitleBox, {backgroundColor: Globals.DefaultSettings.theme.darkColour}]}>
+              <Text style={[styles.creditsTitle, {color: Globals.DefaultSettings.theme.textColour}]}>Credits</Text>
             </View>
-            <Text style={styles.creditsText}>This app makes use of the following two free APIs.</Text>
+            <Text style={[styles.creditsText, {color: Globals.DefaultSettings.theme.textColour}]}>This app makes use of the following two free APIs.</Text>
             <Text style={[styles.creditsText, styles.hyperlink]} onPress={()=>Linking.openURL('https://coinmarketcap.com/api/')}>CoinMarketCap</Text>
-            <Text style={[styles.creditsText, {marginLeft: 20, marginRight: 20,}]}>This API is used to gather all of the data displayed within this app.</Text>
+            <Text style={[styles.creditsText, {marginLeft: 20, marginRight: 20, color: Globals.DefaultSettings.theme.textColour}]}>This API is used to gather all of the data displayed within this app.</Text>
             <Text style={[styles.creditsText, styles.hyperlink]} onPress={()=>Linking.openURL('https://chasing-coins.com/api/')}>Chasing Coins</Text>
-            <Text style={[styles.creditsText, {marginLeft: 20, marginRight: 20,marginBottom: 20}]}>This API is used to pull the logos for each coin.</Text>
+            <Text style={[styles.creditsText, {marginLeft: 20, marginRight: 20,marginBottom: 20, color: Globals.DefaultSettings.theme.textColour}]}>This API is used to pull the logos for each coin.</Text>
           </View>
         </ScrollView>
-        <View style={styles.footer}>
+        <View style={[styles.footer, {backgroundColor: Globals.DefaultSettings.theme.darkColour}]}>
           <TouchableOpacity style={styles.footerButton} onPress={() => {
             this.props.navigation.goBack();
           }}>
-          <Text style={styles.footerText}>Cancel</Text>            
+          <Text style={[styles.footerText, {color: Globals.DefaultSettings.theme.textColour}]}>Cancel</Text>            
           </TouchableOpacity>
           <TouchableOpacity style={styles.footerButton} onPress={this.save.bind(this)}>
-            <Text style={styles.footerText}>Save</Text>
+            <Text style={[styles.footerText, {color: Globals.DefaultSettings.theme.textColour}]}>Save</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -365,10 +436,8 @@ const styles = StyleSheet.create({
   footer:{
     flexDirection: 'row', 
     height: 50, 
-    backgroundColor: 'green',
   },
   footerText: {
-    color: 'white',
     fontSize: 20,   
   },
   footerButton: {
@@ -400,14 +469,12 @@ const styles = StyleSheet.create({
     margin: 15, 
   },
   creditBox: {
-    backgroundColor: 'green',
     margin: 15,
     borderRadius: 5,
   },
   creditTitleBox: {
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    backgroundColor: 'darkgreen',
   },
   creditsTitle:{
     alignSelf: 'center',

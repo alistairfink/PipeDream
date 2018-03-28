@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import Drawer from 'react-native-drawer';
 import { 
@@ -16,6 +17,7 @@ import {
 } from 'react-navigation';
 
 import CommonStyles from './CommonStyles';
+import Globals from './Globals';
 
 const win = Dimensions.get('window');//Viewport
 
@@ -30,10 +32,10 @@ class OneCrypto extends React.Component {
     {//Setting up for mapping
       this.crypto = [
         ['Rank','# '+params.rank],
-        ['Price (USD)','$ '+params.price_usd],
-        ['Price (BTC)','฿ '+params.price_btc],
-        ['24h Volume (USD)','$ '+params['24h_volume_usd']],
-        ['Market Cap (USD)','$ '+params.market_cap_usd],
+        ['Price ('+Globals.DefaultSettings.currency+')',Globals.DefaultSettings.symbol+' '+params['price_'+Globals.DefaultSettings.currency.toLowerCase()]],
+        ['Price (BTC)','Ƀ '+params.price_btc],
+        ['24h Volume ('+Globals.DefaultSettings.currency+')',Globals.DefaultSettings.symbol+' '+params['24h_volume_'+Globals.DefaultSettings.currency.toLowerCase()]],
+        ['Market Cap ('+Globals.DefaultSettings.currency+')',Globals.DefaultSettings.symbol+' '+params['market_cap_'+Globals.DefaultSettings.currency.toLowerCase()]],
         ['Available Supply',params.available_supply + ' ' +params.symbol],
         ['Total Supply',params.total_supply + ' ' +params.symbol],
         ['Max Supply', params.max_supply ? params.max_supply  + ' ' +params.symbol: '-'],
@@ -44,12 +46,15 @@ class OneCrypto extends React.Component {
     }
     return (
      <View style={CommonStyles.container}>
-          <View style={CommonStyles.topBar}>{/*Top Bar*/}
+          <View style={[CommonStyles.topBar, {backgroundColor: Globals.DefaultSettings.theme.primaryColour}]}>{/*Top Bar*/}
+            <StatusBar
+              backgroundColor={Globals.DefaultSettings.theme.darkColour}
+            />
             <TouchableOpacity onPress={() => {this.props.navigation.goBack()}}>
-              <Image source={require('../assets/backIcon.png')} style={CommonStyles.backIcon}/>
+              <Image source={require('../assets/backIcon.png')} style={[CommonStyles.backIcon, {tintColor: Globals.DefaultSettings.theme.textColour}]}/>
             </TouchableOpacity>
             {params && 
-              <Text style={CommonStyles.title}>{params.name} ({params.symbol})</Text>
+              <Text style={[CommonStyles.title, {color: Globals.DefaultSettings.theme.textColour}]}>{params.name} ({params.symbol})</Text>
             }{/*Crpyo Title*/}
           </View>
           <ScrollView> 
