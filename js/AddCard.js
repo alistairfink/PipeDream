@@ -84,7 +84,7 @@ class AddCard extends React.Component {
     let responseObj = null;
     try
     {
-      await fetch('https://api.coinmarketcap.com/v1/ticker/'+_input.id,{
+      await fetch('https://api.coinmarketcap.com/v1/ticker/'+_input.id+'?convert='+Globals.DefaultSettings.currency,{
               method: 'GET'
             })
             .then( (response) => response.json()) 

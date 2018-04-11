@@ -396,7 +396,8 @@ class HomeScreen extends React.Component {
                           <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>Price(BTC): Ƀ {currency.price_btc}</Text>
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'flex-end', flex: 1}}>{/*Percentage Changes*/}
-                          <View style={{flexDirection: 'column', alignItems: 'flex-end' , flex: 1}}>
+                          <View style={{flex: 1}}></View>
+                          <View style={{flexDirection: 'column', alignItems: 'flex-end'}}>
                             <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>1 Hour:{"  "}</Text>
                             <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>24 Hours:{"  "}</Text>
                             <Text style={[styles.cardText, {color: Globals.DefaultSettings.theme.textColour}]}>7 Days:{"  "}</Text>
