@@ -3,8 +3,7 @@ The purpose of this app was to provide an easy and quick way to check the prices
 
 Two external React Native libraries were used in this project. The first, [React Native Drawer](https://github.com/root-two/react-native-drawer), was used to create the slack style drawer. The second library utilised was [React Navigation](https://reactnavigation.org/) for the navigation of pages. The React Native Drawer drawer was used in favor of the built in React Navigation drawer due to the customisability of React Native Drawer's drawer. The name Pipedream comes from the fact that many crypto investors are solely in it for the money rather than the technology. This in turn is a sort of pipedream for them so as kind've a poke at that I named this app Pipedream.
 
-[This App Can Now Be Found on the Google Play Store](https://play.google.com/store/apps/details?id=com.alistairfink.pipedream)
-
+For more details see this app's landing page: https://pipedream.alistairfink.com/
 
 ## Main Card Screen
 The first and main feature of Pipedream is the card view that a user can use to pin their favourite coins. The user can set these cards to update upon opening the app so as to have the quickest possible glance at their favourite coins. The user can also press on the titles of any of these pinned cards to access more in depth information about these coins.
